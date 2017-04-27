@@ -38,7 +38,7 @@ export class Repos {
     this.geo = geolocation;
     this.items = [
       'Amsterdam',
-      'Bogota',
+      'Bogota'
     ];
   }
 
@@ -79,7 +79,7 @@ export class Repos {
   };
 
   getItems(ev: any) {
-
+    
   }
 
   searchInit() {
