@@ -31,15 +31,14 @@ export class Repos {
   geo: Geolocation;
   map: any;
   items: string[];
+  autocomplete: any;
+  completitionRequest: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public events: Events, platform: Platform, public geolocation: Geolocation) {
     this.platform = platform;
     this.geo = geolocation;
-    this.items = [
-      'Amsterdam',
-      'Bogota'
-    ];
+    this.items = [];
   }
 
   ionViewDidLoad() {
@@ -79,10 +78,25 @@ export class Repos {
   };
 
   getItems(ev: any) {
-    
+    if (ev.target.value == undefined || ev.target.value == '' || ev.target.value == null)
+      return;
+    this.items.splice(0, this.items.length);
+    var request = {
+      input: ev.target.value,
+      componentRestrictions: { country: 'it' },
+    };
+    this.autocomplete.getPlacePredictions(request, (pred, status) => {
+      for (let entry of pred) {
+        console.log(entry.description);
+        this.items.push(entry.description);
+      }
+    });
   }
 
   searchInit() {
-    var autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {});
+    // var autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {});
+    this.autocomplete = new google.maps.places.AutocompleteService();
+    //this.completitionRequest = new google.maps.places.AutocompletionRequest();
+    //console.log(this.completitionRequest);
   }
 }
