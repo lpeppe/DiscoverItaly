@@ -32,7 +32,8 @@ export class Repos {
   map: any;
   items: string[];
   autocomplete: any;
-  completitionRequest: any;
+  placesDetails: any;
+  marker: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public events: Events, platform: Platform, public geolocation: Geolocation) {
@@ -44,7 +45,7 @@ export class Repos {
   ionViewDidLoad() {
     console.log('ionViewDidLoad Repos');
     this.loadMap();
-    this.searchInit();
+    this.autocomplete = new google.maps.places.AutocompleteService();
   }
 
   test() {
@@ -65,8 +66,8 @@ export class Repos {
           }
 
           this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-          var marker = new google.maps.Marker({
+          this.placesDetails = new google.maps.places.PlacesService(this.map);
+          this.marker = new google.maps.Marker({
             position: latLng,
             animation: google.maps.Animation.DROP,
             map: this.map
@@ -78,25 +79,23 @@ export class Repos {
   };
 
   getItems(ev: any) {
+    this.items.splice(0, this.items.length);
     if (ev.target.value == undefined || ev.target.value == '' || ev.target.value == null)
       return;
-    this.items.splice(0, this.items.length);
     var request = {
       input: ev.target.value,
       componentRestrictions: { country: 'it' },
     };
     this.autocomplete.getPlacePredictions(request, (pred, status) => {
-      for (let entry of pred) {
-        console.log(entry.description);
-        this.items.push(entry.description);
-      }
+      for (let entry of pred)
+        this.items.push(entry);
     });
   }
 
-  searchInit() {
-    // var autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {});
-    this.autocomplete = new google.maps.places.AutocompleteService();
-    //this.completitionRequest = new google.maps.places.AutocompletionRequest();
-    //console.log(this.completitionRequest);
+  buttonListener(item: any) {
+    this.placesDetails.getDetails({placeId: item.place_id}, (result, status) => {
+      this.map.setCenter(result.geometry.location);
+      this.marker.setPosition(result.geometry.location);
+    });
   }
 }
