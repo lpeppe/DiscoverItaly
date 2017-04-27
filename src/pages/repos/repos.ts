@@ -26,19 +26,26 @@ declare var google;
 export class Repos {
 
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('search') searchElement: ElementRef;
   platform: Platform;
   geo: Geolocation;
   map: any;
+  items: string[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public events: Events, platform: Platform, public geolocation: Geolocation) {
     this.platform = platform;
     this.geo = geolocation;
+    this.items = [
+      'Amsterdam',
+      'Bogota',
+    ];
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Repos');
     this.loadMap();
+    this.searchInit();
   }
 
   test() {
@@ -70,4 +77,12 @@ export class Repos {
         });
     });
   };
+
+  getItems(ev: any) {
+
+  }
+
+  searchInit() {
+    var autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {});
+  }
 }
