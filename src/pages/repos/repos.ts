@@ -48,32 +48,23 @@ export class Repos {
     this.autocomplete = new google.maps.places.AutocompleteService();
   }
 
-  test() {
-    console.log("I've been clicked!");
-    //this.events.publish('test', 'lmao', Date.now());
-  }
-
   loadMap() {
     this.platform.ready().then((readySource) => {
+      let mapOptions = {
+        center: new google.maps.LatLng(40.9143451, 14.7897786, 17),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true
+      }
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+      this.placesDetails = new google.maps.places.PlacesService(this.map);
       this.geo.getCurrentPosition()
         .then(position => {
           let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-          let mapOptions = {
-            center: latLng,
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          }
-
-          this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-          this.placesDetails = new google.maps.places.PlacesService(this.map);
-          this.marker = new google.maps.Marker({
-            position: latLng,
-            animation: google.maps.Animation.DROP,
-            map: this.map
-          });
+          this.map.setCenter(latLng);
+          this.createmarker(latLng);
         }, (err) => {
-          console.log(err);
+          console.log('GPS non attivato');
         });
     });
   };
@@ -87,15 +78,30 @@ export class Repos {
       componentRestrictions: { country: 'it' },
     };
     this.autocomplete.getPlacePredictions(request, (pred, status) => {
-      for (let entry of pred)
-        this.items.push(entry);
+      var i = 0;
+      for (let entry of pred) {
+        if (i < 4)
+          this.items.push(entry);
+        i++;
+      }
     });
   }
 
   buttonListener(item: any) {
-    this.placesDetails.getDetails({placeId: item.place_id}, (result, status) => {
+    this.placesDetails.getDetails({ placeId: item.place_id }, (result, status) => {
       this.map.setCenter(result.geometry.location);
-      this.marker.setPosition(result.geometry.location);
+      if (this.marker == null)
+        this.createmarker(result.geometry.location);
+      else
+        this.marker.setPosition(result.geometry.location);
+    });
+  }
+
+  createmarker(location: any) {
+    this.marker = new google.maps.Marker({
+      position: location,
+      animation: google.maps.Animation.DROP,
+      map: this.map
     });
   }
 }

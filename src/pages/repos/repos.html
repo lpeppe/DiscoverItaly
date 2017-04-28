@@ -18,20 +18,9 @@
   <!-- <i class="ion-pinpoint"></i> -->
   <ion-searchbar #search id="search" (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
-    <!-- <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item> -->
     <button ion-item *ngFor="let item of items" (click)="buttonListener(item)">
       {{ item.description }}
     </button>
   </ion-list>
-  <!-- <ion-list [virtualScroll]="items" [approxItemHeight]=" '500px' ">
-
-    <ion-item *virtualItem="let item">
-      {{ item }}
-    </ion-item>
-
-  </ion-list>-->
   <div #map id="map" style="height: 50%"></div>
-  <button ion-button (click)="test()">Click Me!</button>
 </ion-content>
