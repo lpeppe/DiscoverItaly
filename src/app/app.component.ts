@@ -14,7 +14,7 @@ import { Repos } from '../pages/repos/repos';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = Repos;
 
   pages: Array<{title: string, component: any}>;
 

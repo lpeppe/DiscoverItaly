@@ -17,10 +17,7 @@ export class Users {
   text: String;
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events) {
     this.text = 'hi';
-    /*events.subscribe('test', (user, time) => {
-      // user and time are the same arguments passed in `events.publish(user, time)`
-      this.text = 'lmao';
-    });*/
+  
   }
 
   ionViewDidLoad() {

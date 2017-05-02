@@ -16,7 +16,20 @@
 
 <ion-content padding>
   <!-- <i class="ion-pinpoint"></i> -->
-  <ion-searchbar #search id="search" (ionInput)="getItems($event)"></ion-searchbar>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col style="display: flex; justify-content: center; align-items: center; width: 30px; padding-right: 0px">
+        <button ion-button icon-only round small (click)="gpsRefresh()">
+            <ion-icon name="locate"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-10 style="padding-left: 0px;">
+        <ion-searchbar #search id="search" (ionInput)="getItems($event)"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="buttonListener(item)">
       {{ item.description }}
