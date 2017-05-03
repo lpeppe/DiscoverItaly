@@ -7,10 +7,13 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Users } from '../pages/users/users';
 import { Repos } from '../pages/repos/repos';
+import { ShareService } from '../providers/share-service';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [ShareService]
 })
+
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 

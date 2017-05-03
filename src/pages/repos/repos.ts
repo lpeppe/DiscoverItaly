@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
+import { ShareService } from '../../providers/share-service';
 
 declare var google;
 /**
@@ -14,7 +15,7 @@ declare var google;
 @IonicPage()
 @Component({
   selector: 'page-repos',
-  templateUrl: 'repos.html',
+  templateUrl: 'repos.html'
 })
 
 @NgModule({
@@ -36,7 +37,8 @@ export class Repos {
   marker: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public events: Events, platform: Platform, public geolocation: Geolocation) {
+    public events: Events, platform: Platform, public geolocation: Geolocation,
+    public share: ShareService) {
     this.platform = platform;
     this.geo = geolocation;
     this.items = [];
@@ -109,5 +111,9 @@ export class Repos {
       }, (err) => {
         console.log('GPS non attivato');
       });
+  }
+
+  selectPlace() {
+    this.share.setPlace('test');
   }
 }
