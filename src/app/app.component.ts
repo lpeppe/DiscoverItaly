@@ -8,10 +8,11 @@ import { ListPage } from '../pages/list/list';
 import { Users } from '../pages/users/users';
 import { Repos } from '../pages/repos/repos';
 import { ShareService } from '../providers/share-service';
+import { WebScraper } from '../providers/web-scraper';
 
 @Component({
   templateUrl: 'app.html',
-  providers: [ShareService]
+  providers: [ShareService, WebScraper]
 })
 
 export class MyApp {

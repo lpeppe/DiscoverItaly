@@ -4,6 +4,7 @@ import { Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
 import { ShareService } from '../../providers/share-service';
+import { WebScraper } from '../../providers/web-scraper';
 
 declare var google;
 /**
@@ -38,7 +39,7 @@ export class Repos {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public events: Events, platform: Platform, public geolocation: Geolocation,
-    public share: ShareService) {
+    public share: ShareService, public scraper: WebScraper) {
     this.platform = platform;
     this.geo = geolocation;
     this.items = [];
@@ -66,7 +67,6 @@ export class Repos {
   };
 
   getItems(ev: any) {
-    this.items.splice(0, this.items.length);
     if (ev.target.value == undefined || ev.target.value == '' || ev.target.value == null)
       return;
     var request = {
@@ -74,6 +74,7 @@ export class Repos {
       componentRestrictions: { country: 'it' },
     };
     this.autocomplete.getPlacePredictions(request, (pred, status) => {
+      this.items.splice(0, this.items.length);
       var i = 0;
       for (let entry of pred) {
         if (i < 4)
@@ -114,6 +115,7 @@ export class Repos {
   }
 
   selectPlace() {
-    this.share.setPlace('test');
+    //this.share.setPlace('test');
+    this.scraper.testfun();
   }
 }
