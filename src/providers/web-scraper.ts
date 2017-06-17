@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-// import nightmare from 'nightmare';
 
 /*
   Generated class for the WebScraper provider.
@@ -10,19 +9,19 @@ import 'rxjs/add/operator/map';
   for more info on providers and Angular 2 DI.
 */
 
-declare var require;
 @Injectable()
 export class WebScraper {
 
   constructor(public http: Http) {
-    console.log('Hello WebScraper Provider');
-
+    // console.log('Hello WebScraper Provider');
+    this.http.get('http://ec2-52-25-62-139.us-west-2.compute.amazonaws.com:8080/?loc=avellino').subscribe(data => {
+    // this.http.get('https://www.reddit.com/r/gifs/top/.json?limit=10&sort=hot').subscribe(data => {
+      console.log(data);
+    });
   }
 
-  testfun() {
-    // var nightmare = require('nightmare');
-    // nightmare.goto('https://duckduckgo.com');
-
+  getRemoteData() {
+    console.log('porcodio')
   }
 
 }

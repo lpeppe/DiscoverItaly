@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {Geolocation} from '@ionic-native/geolocation';
 import { HttpModule } from '@angular/http';
+import { WebScraper } from '../providers/web-scraper';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { HttpModule } from '@angular/http';
     StatusBar,
     SplashScreen,
     Geolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    WebScraper
   ]
 })
 export class AppModule {}

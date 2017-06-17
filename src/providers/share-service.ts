@@ -13,7 +13,7 @@ export class ShareService {
 
   place: string;
   constructor(public http: Http) {
-    console.log('Hello ShareService Provider');
+    // console.log('Hello ShareService Provider');
   }
 
   getPlace() {

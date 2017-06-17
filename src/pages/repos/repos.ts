@@ -50,6 +50,7 @@ export class Repos {
     console.log('ionViewDidLoad Repos');
     this.loadMap();
     this.autocomplete = new google.maps.places.AutocompleteService();
+    this.scraper.getRemoteData();
   }
 
   loadMap() {
@@ -86,6 +87,7 @@ export class Repos {
 
   buttonListener(item: any) {
     this.placesDetails.getDetails({ placeId: item.place_id }, (result, status) => {
+      console.log(result.address_components);
       this.map.setCenter(result.geometry.location);
       this.moveMarker(result.geometry.location);
     });
@@ -116,6 +118,6 @@ export class Repos {
 
   selectPlace() {
     //this.share.setPlace('test');
-    this.scraper.testfun();
+    //this.scraper.testfun();
   }
 }
