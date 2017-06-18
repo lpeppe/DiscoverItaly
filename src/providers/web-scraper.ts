@@ -14,14 +14,14 @@ export class WebScraper {
 
   constructor(public http: Http) {
     // console.log('Hello WebScraper Provider');
-    this.http.get('http://ec2-52-25-62-139.us-west-2.compute.amazonaws.com:8080/?loc=avellino').subscribe(data => {
-    // this.http.get('https://www.reddit.com/r/gifs/top/.json?limit=10&sort=hot').subscribe(data => {
-      console.log(data);
-    });
+
   }
 
-  getRemoteData() {
-    console.log('porcodio')
+  getRemoteData(link) {
+    return this.http.get('http://ec2-52-41-141-107.us-west-2.compute.amazonaws.com:8080/page?link=' + link).map(res => res.json());
   }
 
+  getProdottiTipici(place: string) {
+    return this.http.get('http://ec2-52-41-141-107.us-west-2.compute.amazonaws.com:8080/?loc=' + place).map(res => res.json());
+  }
 }

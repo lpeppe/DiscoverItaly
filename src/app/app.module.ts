@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Users } from '../pages/users/users';
 import { Repos } from '../pages/repos/repos';
+import { DescrProd } from '../pages/descr-prod/descr-prod';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,7 +21,8 @@ import { WebScraper } from '../providers/web-scraper';
     HomePage,
     ListPage,
     Users,
-    Repos
+    Repos,
+    DescrProd
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { WebScraper } from '../providers/web-scraper';
     HomePage,
     ListPage,
     Users,
-    Repos
+    Repos,
+    DescrProd
   ],
   providers: [
     StatusBar,

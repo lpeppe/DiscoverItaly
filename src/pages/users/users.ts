@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { ShareService } from '../../providers/share-service';
+import { WebScraper } from '../../providers/web-scraper';
+import { DescrProd } from '../descr-prod/descr-prod';
 
 /**
  * Generated class for the Users page.
@@ -15,15 +17,26 @@ import { ShareService } from '../../providers/share-service';
   templateUrl: 'users.html',
 })
 export class Users {
-  text: String;
+  prodotti: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public events: Events, private share: ShareService) {
-    this.text = 'hi';
+    public events: Events, private share: ShareService, public scraper: WebScraper, public loadingCtrl: LoadingController) {
     console.log(share.getPlace());
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Users');
+    //console.log('ionViewDidLoad Users');
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+    this.scraper.getProdottiTipici("avellino").subscribe(data => {
+      loading.dismiss();
+      this.prodotti = data;
+      console.log(data)
+    })
   }
 
+  openDescr(prodotto) {
+    this.navCtrl.push(DescrProd, prodotto)
+  }
 }

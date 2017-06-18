@@ -17,5 +17,13 @@
 
 
 <ion-content padding>
-  <p>{{text}}</p>
+  <ion-card *ngFor="let prodotto of prodotti" (click) = "openDescr(prodotto)">
+    <ion-card-header>
+      Card Header
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{prodotto.name}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

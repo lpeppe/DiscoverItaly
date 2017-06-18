@@ -50,7 +50,7 @@ export class Repos {
     console.log('ionViewDidLoad Repos');
     this.loadMap();
     this.autocomplete = new google.maps.places.AutocompleteService();
-    this.scraper.getRemoteData();
+    // this.scraper.getRemoteData();
   }
 
   loadMap() {
