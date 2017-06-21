@@ -12,6 +12,9 @@ import 'rxjs/add/operator/map';
 export class ShareService {
 
   place: string;
+  provincia: string;
+  lat: any;
+  lng: any;
   constructor(public http: Http) {
     // console.log('Hello ShareService Provider');
   }
@@ -22,5 +25,29 @@ export class ShareService {
 
   setPlace(place: string) {
     this.place = place;
+  }
+
+  getProvincia() {
+    return this.provincia;
+  }
+
+  setProvincia(provincia: string) {
+    this.provincia = provincia;
+  }
+
+  getLat() {
+    return this.lat;
+  }
+
+  setLat(lat: any) {
+    this.lat = lat;
+  }
+
+  getLng() {
+    return this.lng;
+  }
+
+  setLng(lng: any) {
+    this.lng = lng;
   }
 }

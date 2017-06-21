@@ -11,9 +11,12 @@ export class ListPage {
   icons: string[];
   items: Array<{ title: string, note: string, icon: string }>;
   htmlResponse: string;
+  luoghi: any;
+
   @ViewChild('ionDataContainer') dataContainer: ElementRef;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public scraper: WebScraper, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public scraper: WebScraper, public loadingCtrl: LoadingController) {
     // // If we navigated to this page, we will have an item available as a nav param
     // this.selectedItem = navParams.get('item');
     //
@@ -29,7 +32,6 @@ export class ListPage {
     //     icon: this.icons[Math.floor(Math.random() * this.icons.length)]
     //   });
     // }
-
   }
 
   // itemTapped(event, item) {
@@ -39,13 +41,13 @@ export class ListPage {
   //   });
   // }
   ionViewDidLoad() {
-    // let loading = this.loadingCtrl.create({
-    //   content: 'Please wait...'
-    // });
-    // loading.present();
-    // this.scraper.getRemoteData().subscribe(data => {
-    //   loading.dismiss();
-    //   this.dataContainer.nativeElement.innerHTML = data.body;
-    // })
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+    this.scraper.getLuoghi('milano').subscribe(data => {
+      loading.dismiss();
+      this.luoghi = data;
+    })
   }
 }

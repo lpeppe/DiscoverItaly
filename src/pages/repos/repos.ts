@@ -1,10 +1,10 @@
 import { Component, NgModule, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
 import { ShareService } from '../../providers/share-service';
 import { WebScraper } from '../../providers/web-scraper';
+import { Autocomplete } from '../../providers/autocomplete';
 
 declare var google;
 /**
@@ -28,29 +28,21 @@ declare var google;
 export class Repos {
 
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('search') searchElement: ElementRef;
-  platform: Platform;
-  geo: Geolocation;
+  //@ViewChild('search') searchElement: ElementRef;
   map: any;
-  items: string[];
-  autocomplete: any;
+  //items: string[];
   placesDetails: any;
   marker: any;
+  selectedPlace: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public events: Events, platform: Platform, public geolocation: Geolocation,
-    public share: ShareService, public scraper: WebScraper) {
-    this.platform = platform;
-    this.geo = geolocation;
-    this.items = [];
-    this.events = events;
+    public events: Events, public platform: Platform, public geo: Geolocation,
+    public share: ShareService, public scraper: WebScraper, private autocomplete: Autocomplete) {
+
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Repos');
     this.loadMap();
-    this.autocomplete = new google.maps.places.AutocompleteService();
-    // this.scraper.getRemoteData();
   }
 
   loadMap() {
@@ -64,32 +56,17 @@ export class Repos {
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       this.placesDetails = new google.maps.places.PlacesService(this.map);
       this.gpsRefresh();
-    });
-  };
-
-  getItems(ev: any) {
-    if (ev.target.value == undefined || ev.target.value == '' || ev.target.value == null)
-      return;
-    var request = {
-      input: ev.target.value,
-      componentRestrictions: { country: 'it' },
-    };
-    this.autocomplete.getPlacePredictions(request, (pred, status) => {
-      this.items.splice(0, this.items.length);
-      var i = 0;
-      for (let entry of pred) {
-        if (i < 4)
-          this.items.push(entry);
-        i++;
-      }
-    });
+    })
   }
 
   buttonListener(item: any) {
+    // this.selectedPlace = item;
     this.placesDetails.getDetails({ placeId: item.place_id }, (result, status) => {
-      console.log(result.address_components);
+      // console.log(result);
+      this.selectedPlace = result.address_components;
       this.map.setCenter(result.geometry.location);
       this.moveMarker(result.geometry.location);
+      this.selectedPlace.latLng = result.geometry.location;
     });
   }
 
@@ -117,7 +94,9 @@ export class Repos {
   }
 
   selectPlace() {
-    //this.share.setPlace('test');
-    //this.scraper.testfun();
+    this.share.setPlace(this.selectedPlace[0].long_name);
+    this.share.setProvincia(this.selectedPlace[2].long_name);
+    this.share.setLat(this.selectedPlace.latLng.lat());
+    this.share.setLng(this.selectedPlace.latLng.lng());
   }
 }

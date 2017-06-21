@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { ShareService } from './share-service';
 import 'rxjs/add/operator/map';
 
 /*
@@ -11,17 +12,25 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class WebScraper {
-
-  constructor(public http: Http) {
+  hostname: string;
+  constructor(public http: Http, public share: ShareService) {
     // console.log('Hello WebScraper Provider');
-
+    this.hostname = 'http://localhost:8080';
   }
 
   getRemoteData(link) {
-    return this.http.get('http://ec2-52-41-141-107.us-west-2.compute.amazonaws.com:8080/page?link=' + link).map(res => res.json());
+    return this.http.get(this.hostname + '/page?link=' + link).map(res => res.json());
   }
 
   getProdottiTipici(place: string) {
-    return this.http.get('http://ec2-52-41-141-107.us-west-2.compute.amazonaws.com:8080/?loc=' + place).map(res => res.json());
+    return this.http.get(this.hostname + '/?loc=' + place).map(res => res.json());
+  }
+
+  getLuoghi(place: string) {
+    return this.http.get(this.hostname + '/?loc=' + place).map(res => res.json());
+  }
+
+  getRistoranti(radius: number) {
+    return this.http.get(this.hostname + '/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json());
   }
 }

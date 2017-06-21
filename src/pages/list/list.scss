@@ -1,9 +1,40 @@
-page-list {
-
-}
+page-list {}
+// img {
+//   display: block;
+//   width: 100%;
+//   height: auto;
+// }
 
 img {
-  display: block;
-  width: 100%;
-  height: auto;
+  height: 272px;
+  width: auto;
+  // -webkit-filter: blur(2px);
+  // filter: blur(2px);
+  -webkit-filter: grayscale(40%);
+}
+
+.card-background-page {
+  ion-card {
+    position: relative;
+    text-align: center;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 10%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+
+  .card-subtitle {
+    font-size: 1.4em;
+    position: absolute;
+    bottom: 30%;
+    width: 100%;
+    color: #fff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
 }

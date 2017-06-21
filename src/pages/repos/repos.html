@@ -19,21 +19,16 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col style="display: flex; justify-content: center; align-items: center; width: 30px; padding-right: 0px">
+      <ion-col col-2 style="display: flex; justify-content: center; align-items: center; width: 30px; padding-right: 0px">
         <button ion-button icon-only round small (click)="gpsRefresh()">
             <ion-icon name="locate"></ion-icon>
         </button>
       </ion-col>
-      <ion-col col-10 style="padding-left: 0px;">
-        <ion-searchbar #search id="search" (ionInput)="getItems($event)"></ion-searchbar>
+      <ion-col col-10 >
+        <ion-auto-complete [dataProvider]="autocomplete" [options]="{ placeholder : 'Cerca' }" (itemSelected) = buttonListener($event)></ion-auto-complete>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="buttonListener(item)">
-      {{ item.description }}
-    </button>
-  </ion-list>
   <div #map id="map" style="height: 50%"></div>
   <ion-grid style="padding-top: 20px">
     <button ion-button (click) ="selectPlace()">Seleziona luogo</button>

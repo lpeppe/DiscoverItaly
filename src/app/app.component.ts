@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Users } from '../pages/users/users';
 import { Repos } from '../pages/repos/repos';
+import { Ristoranti } from '../pages/ristoranti/ristoranti';
 import { ShareService } from '../providers/share-service';
 import { WebScraper } from '../providers/web-scraper';
 
@@ -29,7 +30,8 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
       { title: 'Users', component: Users },
-      { title: 'Repos', component: Repos }
+      { title: 'Repos', component: Repos },
+      { title: 'Ristoranti', component: Ristoranti}
     ];
 
   }
