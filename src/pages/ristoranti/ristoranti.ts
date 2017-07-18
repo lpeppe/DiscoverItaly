@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
-import { Http } from '@angular/http';
+import { DescrRistPage } from '../descr-rist/descr-rist';
 
 /**
  * Generated class for the Ristoranti page.
@@ -18,28 +18,24 @@ export class Ristoranti {
 
   ristoranti: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public scraper: WebScraper, public loadingCtrl: LoadingController, public http: Http) {
+    public scraper: WebScraper, public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
-    //this.ristoranti = this.scraper.getRistoranti(2000);
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
     loading.present();
     this.scraper.getRistoranti(5000)
-    .subscribe(data => {
-      loading.dismiss();
-      // console.log(data)
-      // for(var i in data) {
-      //   if(data[i].photo != undefined) {
-      //
-      //   }
-      // }
-      this.ristoranti = data
-    })
+      .subscribe(data => {
+        loading.dismiss();
+        this.ristoranti = data
+        console.log(this.ristoranti[3].rating)
+      })
   }
-  test() {
-    return 'hi'
+
+  openDescr(ristorante: any) {
+    this.navCtrl.push(DescrRistPage, ristorante)
+    // console.log(ristorante)
   }
 }

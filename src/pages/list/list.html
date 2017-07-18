@@ -33,7 +33,7 @@
     </ion-card-content>
   </ion-card> -->
   <ion-card *ngFor="let luogo of luoghi">
-    <img src={{luogo.img}}/>
+    <img [src]="(luogo.img == 'noimg') ? 'http://stamforduniversity.edu.bd/PRD/PRDNewsImage/no-img.jpg' : luogo.img"/>
     <div class="card-title">{{luogo.nome}}</div>
     <div class="card-subtitle">{{luogo.tipologia}}</div>
   </ion-card>

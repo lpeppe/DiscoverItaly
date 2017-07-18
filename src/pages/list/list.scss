@@ -6,8 +6,9 @@ page-list {}
 // }
 
 img {
-  height: 272px;
   width: auto;
+  height: auto;
+  max-height: 500px;
   // -webkit-filter: blur(2px);
   // filter: blur(2px);
   -webkit-filter: grayscale(40%);

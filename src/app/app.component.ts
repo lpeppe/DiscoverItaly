@@ -27,11 +27,11 @@ export class MyApp {
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'Seleziona luogo', component: Repos },
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'Users', component: Users },
-      { title: 'Repos', component: Repos },
-      { title: 'Ristoranti', component: Ristoranti}
+      { title: 'Luoghi di interesse', component: ListPage },
+      { title: 'Ristoranti', component: Ristoranti},
+      { title: 'Users', component: Users }
     ];
 
   }

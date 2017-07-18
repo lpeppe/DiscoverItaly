@@ -45,7 +45,7 @@ export class ListPage {
       content: 'Please wait...'
     });
     loading.present();
-    this.scraper.getLuoghi('milano').subscribe(data => {
+    this.scraper.getLuoghi('avellino').subscribe(data => {
       loading.dismiss();
       this.luoghi = data;
     })

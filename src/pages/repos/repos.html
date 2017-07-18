@@ -24,13 +24,13 @@
             <ion-icon name="locate"></ion-icon>
         </button>
       </ion-col>
-      <ion-col col-10 >
+      <ion-col col-10>
         <ion-auto-complete [dataProvider]="autocomplete" [options]="{ placeholder : 'Cerca' }" (itemSelected) = buttonListener($event)></ion-auto-complete>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div #map id="map" style="height: 50%"></div>
+  <div #map id="map" style="height: 70%"></div>
   <ion-grid style="padding-top: 20px">
-    <button ion-button (click) ="selectPlace()">Seleziona luogo</button>
+    <button ion-button (click)="selectPlace()">Seleziona luogo</button>
   </ion-grid>
 </ion-content>

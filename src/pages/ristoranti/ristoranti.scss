@@ -1,3 +1,62 @@
 page-ristoranti {
+  // text-align: center;
+  // .star {
+  //   font-size:200%;
+  // }
+  .star-ratings-sprite {
+    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+    font-size: 0;
+    height: 21px;
+    line-height: 0;
+    overflow: hidden;
+    text-indent: -999em;
+    width: 110px;
+    margin: 0 auto;
 
+    &-rating {
+      background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+      background-position: 0 100%;
+      float: left;
+      height: 21px;
+      display: block;
+    }
+  }
+
+  .card-title,
+  div.textRating {
+    font-weight: bold;
+    font-size: 120%;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 10px;
+  }
+
+  img {
+    border-radius: 5%;
+    // padding-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  div.textRating {
+    font-size: 100%;
+  }
+
+  ion-card {
+    margin-bottom: 30px !important;
+  }
+
+  .rating {
+    padding-top: 20px;
+  }
+  .img-loaded + ion-spinner {
+    display: none;
+  }
+  // .center in my case to make the spinner at the center
+
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 }
