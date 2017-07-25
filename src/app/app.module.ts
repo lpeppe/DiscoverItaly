@@ -18,8 +18,6 @@ import {Geolocation} from '@ionic-native/geolocation';
 import { HttpModule } from '@angular/http';
 import { WebScraper } from '../providers/web-scraper';
 import { Autocomplete } from '../providers/autocomplete';
-import { File } from '@ionic-native/file';
-import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
 
@@ -59,8 +57,6 @@ import { Toast } from '@ionic-native/toast';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     WebScraper,
     Autocomplete,
-    File,
-    Transfer,
     GoogleMaps,
     Toast
   ]

@@ -12,7 +12,8 @@ import {
   LatLng,
   CameraPosition,
   MarkerOptions,
-  Marker
+  Marker,
+  ILatLng
 } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
 
@@ -38,9 +39,7 @@ declare var google;
 export class Repos {
 
   @ViewChild('map') mapElement: ElementRef;
-  //@ViewChild('search') searchElement: ElementRef;
   map: GoogleMap;
-  //items: string[];
   placesDetails: any;
   marker: any;
   selectedPlace: any;
@@ -51,28 +50,11 @@ export class Repos {
     private autocomplete: Autocomplete, private googleMaps: GoogleMaps,
     private toast: Toast) {
   }
-
-  // ionViewDidLoad() {
-  //   this.loadMap();
-  // }
   ngAfterViewInit() {
     this.platform.ready().then(() => {
       this.loadMap();
     })
   }
-  /*loadMap() {
-    this.platform.ready().then((readySource) => {
-      let mapOptions = {
-        center: new google.maps.LatLng(40.9143451, 14.7897786, 17),
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        disableDefaultUI: true
-      }
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-      this.placesDetails = new google.maps.places.PlacesService(this.map);
-      this.gpsRefresh();
-    })
-  }*/
 
   loadMap() {
     let element: HTMLElement = document.getElementById('map');
@@ -86,69 +68,57 @@ export class Repos {
           tilt: 30
         };
         this.map.moveCamera(position);
+        this.map.setClickable(false);
+        this.gpsRefresh();
       })
   }
 
   buttonListener(item: any) {
-    console.log("pressed")
-    this.placesDetails.getDetails({ placeId: item.place_id }, (result, status) => {
-      console.log(result);
-      this.selectedPlace = result.address_components;
-      //this.map.setCenter(result.geometry.location);
-      let latlng: LatLng = new LatLng(result.geometry.location.lat(), result.geometry.location.lng());
-      this.moveMarker(latlng);
-      this.selectedPlace.latLng = result.geometry.location;
-    });
+    this.scraper.getPlaceDetails(item.place_id)
+      .subscribe(data => {
+        let position: CameraPosition = {
+          target: {
+            lat: data.lat,
+            lng: data.lng
+          },
+          zoom: 18,
+          tilt: 30
+        };
+        this.moveMarker(data.lat, data.lng)
+          .then(_ => this.map.animateCamera(position))
+      })
   }
 
-  // moveMarker(location: any) {
-  moveMarker(latlng: any) {
-    // if (this.marker == null) {
-    //   this.marker = new google.maps.Marker({
-    //     position: location,
-    //     animation: google.maps.Animation.DROP,
-    //     map: this.map
-    //   });
-    // }
-    // else
-    //   this.marker.setPosition(location);
-    //let pos: LatLng = new LatLng(latitude, longitude);
-    let position: CameraPosition = { target: latlng };
-    this.map.moveCamera(position);
+  moveMarker(lat: any, lng: any) {
+    this.map.clear();
+    let latlng: ILatLng = {
+      lat: lat,
+      lng: lng
+    }
     let markerOptions: MarkerOptions = {
-      position: latlng,
-      title: 'Ionic'
+      position: latlng
     };
-    this.map.addMarker(markerOptions)
-    //  .then((marker: Marker) => {
-    //     marker.showInfoWindow();
-    //   });
+    return this.map.addMarker(markerOptions)
   }
 
   gpsRefresh() {
-    // this.geo.getCurrentPosition()
-    //   .then(position => {
-    //     let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    //     this.map.setCenter(latLng);
-    //     this.moveMarker(latLng);
-    //   }, (err) => {
-    //     console.log('GPS non attivato');
-    //   });
-    this.platform.ready().then(() => {
-      var options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
-      this.geo.getCurrentPosition(options)
-        .then(position => {
-          let latlng: LatLng = new LatLng(position.coords.latitude, position.coords.longitude);
-          this.moveMarker(latlng);
-        }, (err) => {
-          this.toast.show("GPS disattivato", '5000', 'center')
-            .subscribe(_ => { })
-          // console.log('GPS non attivato');
-        })
+    this.map.getMyLocation()
+      .then(loc => {
+        let position: CameraPosition = {
+          target: {
+            lat: loc.latLng.lat,
+            lng: loc.latLng.lng
+          },
+          zoom: 18,
+          tilt: 30
+        };
+        this.moveMarker(loc.latLng.lat, loc.latLng.lng)
+          .then(_ => this.map.animateCamera(position))
+      }, _ => {
+        this.toast.show('GPS disattivato', '5000', 'center').subscribe(
+          toast => {
+            console.log(toast);
+          })
     })
   }
 

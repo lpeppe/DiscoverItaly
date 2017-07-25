@@ -21,13 +21,17 @@
     <div class="card-title">
       {{ristorante.name}}
     </div>
-    <!-- <img [src]="(ristorante.photo != undefined) ?
-    'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference='
-    + ristorante.photo : 'http://stamforduniversity.edu.bd/PRD/PRDNewsImage/no-img.jpg'"> -->
 
-    <img [src]= "(ristorante.photo != undefined) ?
+    <!-- enabled imgs -->
+    <!-- <img [src]= "(ristorante.photo != undefined) ?
     'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference='
     + ristorante.photo : 'http://stamforduniversity.edu.bd/PRD/PRDNewsImage/no-img.jpg'"
+    (load)="loaded = true"
+    [ngClass]="{'img-loaded':loaded}"
+    [hidden]="!loaded"/> -->
+
+    <!-- disabled imgs to reduce api consumption -->
+    <img src= 'http://stamforduniversity.edu.bd/PRD/PRDNewsImage/no-img.jpg'
     (load)="loaded = true"
     [ngClass]="{'img-loaded':loaded}"
     [hidden]="!loaded"/>

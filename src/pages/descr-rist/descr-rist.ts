@@ -17,6 +17,7 @@ export class DescrRistPage {
 
   view: String = '';
   details: any;
+  reviews: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public scraper: WebScraper) {
   }
 
@@ -25,6 +26,8 @@ export class DescrRistPage {
     this.scraper.getDescrRistoranti(this.navParams.get('placeId'))
     .subscribe(data => {
       this.details = data;
+      this.reviews = this.details.reviews;
+      console.log(this.details)
     })
   }
 

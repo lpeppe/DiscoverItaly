@@ -16,7 +16,7 @@ export class WebScraper {
   constructor(public http: Http, public share: ShareService) {
     // console.log('Hello WebScraper Provider');
     // this.hostname = 'http://192.168.1.103';
-    this.hostname = 'http://192.168.1.103';
+    this.hostname = 'http://172.19.46.12';
   }
 
   getRemoteData(link) {
@@ -37,6 +37,11 @@ export class WebScraper {
   }
 
   getDescrRistoranti(place_id: string) {
+    console.log(place_id)
     return this.http.get(this.hostname + ':8081/descr?placeid=' + place_id).map(res => res.json());
+  }
+
+  getPlaceDetails(place_id: string) {
+    return this.http.get(this.hostname + ':8081/?placeid=' + place_id).map(res => res.json());
   }
 }

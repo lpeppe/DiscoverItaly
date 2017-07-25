@@ -1,6 +1,17 @@
-page-descr-rist {
-  ion-slide img {
+.ios,
+.md {
+  page-descr-rist {
+    ion-slide img {
       height: 30vh !important;
       width: auto !important;
     }
+  }
+
+  ion-list {
+    div {
+      p {
+        width: 25vw;
+      }
+    }
+  }
 }
