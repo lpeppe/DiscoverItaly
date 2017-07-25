@@ -44,4 +44,17 @@ export class WebScraper {
   getPlaceDetails(place_id: string) {
     return this.http.get(this.hostname + ':8081/?placeid=' + place_id).map(res => res.json());
   }
+
+  getDescrAttrazioni(attr: string) {
+    console.log(this.hostname + '/wiki?loc=roma&attr='+ attr)
+    return this.http.get(this.hostname + ':3000/wiki?loc=roma&attr='+ attr).map(res => res.json());
+  }
+  getSagre(regione: string,provincia: string,mese :string,index:number) {
+    console.log('num = '+index)
+    return this.http.get(this.hostname + ':3000/sagre?regione='+regione+'&provincia='+provincia+'&mese='+mese+'&num='+index).map(res => res.json());
+  }
+  getDescrSagre(url: string) {
+    return this.http.get(this.hostname + ':8081/descr?url=' + url).map(res => res.json());
+  }
+
 }
