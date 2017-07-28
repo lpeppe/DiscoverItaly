@@ -1,4 +1,4 @@
-import { Component, NgModule, ViewChild, ElementRef } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
@@ -38,7 +38,6 @@ declare var google;
 
 export class Repos {
 
-  @ViewChild('map') mapElement: ElementRef;
   map: GoogleMap;
   placesDetails: any;
   marker: any;
@@ -61,15 +60,8 @@ export class Repos {
     this.map = this.googleMaps.create(element);
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(_ => {
-        let latlng: LatLng = new LatLng(40.9143451, 14.7897786);
-        let position: CameraPosition = {
-          target: latlng,
-          zoom: 18,
-          tilt: 30
-        };
-        this.map.moveCamera(position);
         this.map.setClickable(false);
-        this.gpsRefresh();
+        this.gpsRefresh()
       })
   }
 
@@ -86,6 +78,10 @@ export class Repos {
         };
         this.moveMarker(data.lat, data.lng)
           .then(_ => this.map.animateCamera(position))
+        this.share.setLat(data.lat);
+        this.share.setLng(data.lng);
+        this.share.setProvincia(data.provincia);
+        this.share.setRegione(data.regione);
       })
   }
 
@@ -104,22 +100,31 @@ export class Repos {
   gpsRefresh() {
     this.map.getMyLocation()
       .then(loc => {
+        let lat = loc.latLng.lat;
+        let lng = loc.latLng.lng;
         let position: CameraPosition = {
           target: {
-            lat: loc.latLng.lat,
-            lng: loc.latLng.lng
+            lat: lat,
+            lng: lng
           },
           zoom: 18,
           tilt: 30
         };
-        this.moveMarker(loc.latLng.lat, loc.latLng.lng)
+        this.moveMarker(lat, lng)
           .then(_ => this.map.animateCamera(position))
+        this.scraper.getReverseGeocoding(lat, lng)
+          .subscribe(data => {
+            this.share.setProvincia(data.provincia);
+            this.share.setRegione(data.regione);
+          })
+        this.share.setLat(lat);
+        this.share.setLng(lng);
       }, _ => {
         this.toast.show('GPS disattivato', '5000', 'center').subscribe(
           toast => {
             console.log(toast);
           })
-    })
+      })
   }
 
   selectPlace() {

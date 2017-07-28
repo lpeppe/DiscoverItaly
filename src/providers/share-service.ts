@@ -13,6 +13,7 @@ export class ShareService {
 
   place: string;
   provincia: string;
+  regione: string;
   lat: any;
   lng: any;
   constructor(public http: Http) {
@@ -33,6 +34,14 @@ export class ShareService {
 
   setProvincia(provincia: string) {
     this.provincia = provincia;
+  }
+
+  getRegione() {
+    return this.regione;
+  }
+
+  setRegione(regione: string) {
+    this.regione = regione;
   }
 
   getLat() {

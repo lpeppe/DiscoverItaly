@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { ShareService } from './share-service';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/retry';
 
 /*
   Generated class for the WebScraper provider.
@@ -16,7 +17,7 @@ export class WebScraper {
   constructor(public http: Http, public share: ShareService) {
     // console.log('Hello WebScraper Provider');
     // this.hostname = 'http://192.168.1.103';
-    this.hostname = 'http://172.19.46.12';
+    this.hostname = 'http://ec2-34-211-244-29.us-west-2.compute.amazonaws.com';
   }
 
   getRemoteData(link) {
@@ -27,32 +28,46 @@ export class WebScraper {
     return this.http.get(this.hostname + '/?loc=' + place).map(res => res.json());
   }
 
-  getLuoghi(place: string) {
-    return this.http.get(this.hostname + ':8080/?loc=' + place).map(res => res.json());
+  getLuoghi() {
+    return this.http.get(this.hostname + ':8080/?loc=' + this.share.provincia).map(res => res.json()).retry();
   }
 
   getRistoranti(radius: number) {
     // return this.http.get(this.hostname + '/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json());
-    return this.http.get(this.hostname + ':8081/?lat=40.9221604' + '&lng=14.7601241' + '&radius=' + radius).map(res => res.json());
+    return this.http.get(this.hostname + ':8082/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json());
   }
 
   getDescrRistoranti(place_id: string) {
     console.log(place_id)
-    return this.http.get(this.hostname + ':8081/descr?placeid=' + place_id).map(res => res.json());
+    return this.http.get(this.hostname + ':8082/descr?placeid=' + place_id).map(res => res.json());
+  }
+
+  getTaReviews(ris: string) {
+    return this.http.get(this.hostname + ':8083/?ris=' + ris + '&citta=' + this.share.getProvincia()).map(res => res.json()).retry();
+  }
+
+  getTaNextPage(place_id: string, ris_id: string, page:number) {
+    return this.http.get(this.hostname + ':8083/?placeid=' + place_id + '&risid=' + ris_id + "&page=" + page).map(res => res.json()).retry();
   }
 
   getPlaceDetails(place_id: string) {
     return this.http.get(this.hostname + ':8081/?placeid=' + place_id).map(res => res.json());
   }
 
+  getReverseGeocoding(lat: any, lng: any) {
+    return this.http.get(this.hostname + ':8081/reverse?lat=' + lat + "&lng=" + lng).map(res => res.json());
+  }
+
   getDescrAttrazioni(attr: string) {
     console.log(this.hostname + '/wiki?loc=roma&attr='+ attr)
     return this.http.get(this.hostname + ':3000/wiki?loc=roma&attr='+ attr).map(res => res.json());
   }
+
   getSagre(regione: string,provincia: string,mese :string,index:number) {
     console.log('num = '+index)
     return this.http.get(this.hostname + ':3000/sagre?regione='+regione+'&provincia='+provincia+'&mese='+mese+'&num='+index).map(res => res.json());
   }
+
   getDescrSagre(url: string) {
     return this.http.get(this.hostname + ':8081/descr?url=' + url).map(res => res.json());
   }

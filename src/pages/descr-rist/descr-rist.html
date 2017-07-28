@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>descrRist</ion-title>
+    <ion-title>{{navParams.get('name')}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -22,37 +22,58 @@
       Recensioni
     </ion-segment-button>
   </ion-segment>
+
   <div [ngSwitch]="view">
-    <div *ngSwitchCase="'info'">
-      <ion-slides>
-        <ion-slide *ngFor="let img of details.photos">
-          <img [src]="'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference=' + img.photo_reference" />
-        </ion-slide>
-      </ion-slides>
+    <div id="info">
+      <div *ngSwitchCase="'info'">
+        <div class="flexBox">
+          <div *ngIf="details != undefined" [style.background]="(details.open_now) ? 'green' : 'red'"></div>
+          <span *ngIf="details != undefined && details.open_now">Aperto</span>
+          <span *ngIf="details != undefined && !details.open_now">Chiuso</span>
+          <ion-icon name="call" (click)="call()"></ion-icon>
+          <ion-icon name="navigate" (click)="navigateTo()"></ion-icon>
+
+        </div>
+      </div>
+      <div #map2 id="map2" [style.height]="(view == 'info') ? '35vh' : '0px'"></div>
+      <div *ngSwitchCase="'info'">
+        <ion-slides *ngIf="details != undefined">
+          <ion-slide *ngFor="let img of details.photos" (click) ="openImg($event)">
+            <img [src]="'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference=' + img.photo_reference" />
+          </ion-slide>
+        </ion-slides>
+      </div>
     </div>
-    <div *ngSwitchCase="'recensioni'">
-      <!-- <ion-list>
-        <ion-item *ngFor="let recensione of reviews">
-          <ion-avatar item-start>
-            <img [src]="recensione.profile_photo_url">
-          </ion-avatar>
-          <h2>Finn</h2>
-          <h3>Don't Know What To Do!</h3>
-          <p>I've had a pretty messed up day. If we just...</p>
-        </ion-item>
-      </ion-list> -->
-      <ion-list>
-        <ion-item *ngFor="let recensione of reviews">
-          <div item-start>
-            <ion-avatar>
-              <img [src]="recensione.profile_photo_url">
-            </ion-avatar>
-            <p>{{recensione.author_name}}</p>
-          </div>
-          <p>{{recensione.text}}</p>
-          <!-- <p item-end>{{recensione.relative_time_description}}</p> -->
-        </ion-item>
-      </ion-list>
+
+    <div id="rec">
+      <div *ngSwitchCase="'recensioni'">
+        <ion-list>
+          <ion-item *ngFor="let recensione of reviews">
+            <div class="center">
+              <ion-avatar>
+                <img [src]="recensione.profile_photo_url">
+              </ion-avatar>
+            </div>
+            <p class="name">{{recensione.author_name}}</p>
+            <div class="rating">
+              <div class="star-ratings-sprite">
+                <span [style.width]="(100*recensione.rating/5) + '%'" class="star-ratings-sprite-rating"></span>
+              </div>
+            </div>
+            <div *ngIf="recensione.title != undefined" class="title">
+              <span text-wrap>{{recensione.title}}</span>
+            </div>
+            <span class="review" text-wrap>{{recensione.text}}</span>
+            <div class="date">
+              <p>{{recensione.relative_time_description}}</p>
+            </div>
+          </ion-item>
+        </ion-list>
+        <ion-spinner *ngIf="!loaded"></ion-spinner>
+        <ion-infinite-scroll (ionInfinite)="scrapeNext($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
     </div>
   </div>
 </ion-content>

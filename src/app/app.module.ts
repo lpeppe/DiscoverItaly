@@ -20,7 +20,10 @@ import { WebScraper } from '../providers/web-scraper';
 import { Autocomplete } from '../providers/autocomplete';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
-
+import { CallNumber } from '@ionic-native/call-number';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,11 @@ import { Toast } from '@ionic-native/toast';
     WebScraper,
     Autocomplete,
     GoogleMaps,
-    Toast
+    Toast,
+    CallNumber,
+    LaunchNavigator,
+    NativePageTransitions,
+    PhotoViewer
   ]
 })
 export class AppModule {}

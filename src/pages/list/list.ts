@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
+import { ShareService } from '../../providers/share-service';
 
 @Component({
   selector: 'page-list',
@@ -16,7 +17,8 @@ export class ListPage {
   @ViewChild('ionDataContainer') dataContainer: ElementRef;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public scraper: WebScraper, public loadingCtrl: LoadingController) {
+    public scraper: WebScraper, public loadingCtrl: LoadingController,
+  public share: ShareService) {
     // // If we navigated to this page, we will have an item available as a nav param
     // this.selectedItem = navParams.get('item');
     //
@@ -44,10 +46,12 @@ export class ListPage {
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
-    loading.present();
-    this.scraper.getLuoghi('avellino').subscribe(data => {
-      loading.dismiss();
-      this.luoghi = data;
-    })
+    if (this.share.getProvincia() != undefined) {
+      loading.present();
+      this.scraper.getLuoghi().subscribe(data => {
+        loading.dismiss();
+        this.luoghi = data;
+      })
+    }
   }
 }
