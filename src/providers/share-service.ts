@@ -11,21 +11,21 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ShareService {
 
-  place: string;
+  citta: string;
   provincia: string;
   regione: string;
   lat: any;
   lng: any;
+  luoghi: any;
   constructor(public http: Http) {
-    // console.log('Hello ShareService Provider');
   }
 
-  getPlace() {
-    return this.place;
+  getCitta() {
+    return this.citta;
   }
 
-  setPlace(place: string) {
-    this.place = place;
+  setCitta(citta: string) {
+    this.citta = citta;
   }
 
   getProvincia() {

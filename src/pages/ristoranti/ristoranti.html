@@ -36,14 +36,12 @@
     [ngClass]="{'img-loaded':loaded}"
     [hidden]="!loaded"/>
     <ion-spinner [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
-    <div *ngIf="ristorante.rating != undefined" class="rating">
-      <div class="star-ratings-sprite">
+    <div class="rating">
+      <div *ngIf="ristorante.rating != undefined" class="star-ratings-sprite">
         <span [style.width]="(100*ristorante.rating/5) + '%'" class="star-ratings-sprite-rating"></span>
       </div>
-      <div class="textRating">Valutazione: {{ristorante.rating}}</div>
-    </div>
-    <div *ngIf="ristorante.rating == undefined" class="rating">
-      Nessuna valutazione
+      <div *ngIf="ristorante.rating != undefined" class="textRating">Valutazione: {{ristorante.rating}}</div>
+      <div *ngIf="ristorante.rating == undefined" class="textRating">Nessuna valutazione</div>
     </div>
   </ion-card>
 </ion-content>

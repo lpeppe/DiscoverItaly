@@ -61,25 +61,23 @@ export class Repos {
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(_ => {
         this.map.setClickable(false);
-        this.gpsRefresh()
+        if (this.share.getLat() == undefined)
+          this.gpsRefresh();
+        else {
+          this.moveMarker(this.share.getLat(), this.share.getLng())
+            .then(_ => this.moveCamera(this.share.getLat(), this.share.getLng()))
+        }
       })
   }
 
   buttonListener(item: any) {
     this.scraper.getPlaceDetails(item.place_id)
       .subscribe(data => {
-        let position: CameraPosition = {
-          target: {
-            lat: data.lat,
-            lng: data.lng
-          },
-          zoom: 18,
-          tilt: 30
-        };
         this.moveMarker(data.lat, data.lng)
-          .then(_ => this.map.animateCamera(position))
+          .then(_ => this.moveCamera(data.lat, data.lng))
         this.share.setLat(data.lat);
         this.share.setLng(data.lng);
+        this.share.setCitta(data.citta);
         this.share.setProvincia(data.provincia);
         this.share.setRegione(data.regione);
       })
@@ -102,18 +100,11 @@ export class Repos {
       .then(loc => {
         let lat = loc.latLng.lat;
         let lng = loc.latLng.lng;
-        let position: CameraPosition = {
-          target: {
-            lat: lat,
-            lng: lng
-          },
-          zoom: 18,
-          tilt: 30
-        };
         this.moveMarker(lat, lng)
-          .then(_ => this.map.animateCamera(position))
+          .then(_ => this.moveCamera(lat, lng))
         this.scraper.getReverseGeocoding(lat, lng)
           .subscribe(data => {
+            this.share.setCitta(data.citta);
             this.share.setProvincia(data.provincia);
             this.share.setRegione(data.regione);
           })
@@ -127,10 +118,15 @@ export class Repos {
       })
   }
 
-  selectPlace() {
-    this.share.setPlace(this.selectedPlace[0].long_name);
-    this.share.setProvincia(this.selectedPlace[2].long_name);
-    this.share.setLat(this.selectedPlace.latLng.lat());
-    this.share.setLng(this.selectedPlace.latLng.lng());
+  moveCamera(lat: any, lng: any) {
+    let position: CameraPosition = {
+      target: {
+        lat: lat,
+        lng: lng
+      },
+      zoom: 18,
+      tilt: 30
+    };
+    this.map.animateCamera(position);
   }
 }

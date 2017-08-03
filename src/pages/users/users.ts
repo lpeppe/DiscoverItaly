@@ -20,20 +20,18 @@ export class Users {
   prodotti: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public events: Events, private share: ShareService, public scraper: WebScraper, public loadingCtrl: LoadingController) {
-    console.log(share.getPlace());
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad Users');
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
-    this.scraper.getProdottiTipici("avellino").subscribe(data => {
-      loading.dismiss();
-      this.prodotti = data;
-      console.log(data)
-    })
+    this.scraper.getProdottiTipici()
+      .subscribe(data => {
+        loading.dismiss();
+        this.prodotti = data;
+      })
   }
 
   openDescr(prodotto) {

@@ -31,7 +31,7 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'Luoghi di interesse', component: ListPage },
       { title: 'Ristoranti', component: Ristoranti},
-      { title: 'Users', component: Users }
+      { title: 'Prodotti Tipici', component: Users }
     ];
 
   }

@@ -2,9 +2,12 @@
 .md {
   page-descr-rist {
     div#info {
-      // ion-slide img {
-      //   height: 30vh !important;
-      //   width: auto !important;
+
+      // div#slides {
+      //   width: 80vw;
+      //
+      //   display: flex;
+      //   justify-content: center;
       // }
 
       ion-slides {
@@ -49,6 +52,17 @@
     }
 
     div#rec {
+
+      div#avg {
+        display: flex;
+        flex-direction: column;
+
+        div {
+          display: flex;
+          flex-direction: row;
+        }
+      }
+
       ion-list {
         ion-item {
           .star-ratings-sprite {

@@ -15,31 +15,31 @@ import 'rxjs/add/operator/retry';
 export class WebScraper {
   hostname: string;
   constructor(public http: Http, public share: ShareService) {
-    // console.log('Hello WebScraper Provider');
-    // this.hostname = 'http://192.168.1.103';
-    this.hostname = 'http://ec2-34-211-244-29.us-west-2.compute.amazonaws.com';
+    this.hostname = 'http://ec2-52-27-85-145.us-west-2.compute.amazonaws.com';
   }
 
-  getRemoteData(link) {
-    return this.http.get(this.hostname + '/page?link=' + link).map(res => res.json());
+  getProdottiTipici() {
+    return this.http.get(this.hostname + ':8084/?regione=' + this.share.regione.toLowerCase()).map(res => res.json()).retry(2);
   }
 
-  getProdottiTipici(place: string) {
-    return this.http.get(this.hostname + '/?loc=' + place).map(res => res.json());
+  getDescrProdottiTipici(link) {
+    return this.http.get(this.hostname + ':8084/page?link=' + link).map(res => res.json()).retry(2);
   }
 
   getLuoghi() {
-    return this.http.get(this.hostname + ':8080/?loc=' + this.share.provincia).map(res => res.json()).retry();
+    return this.http.get(this.hostname + ':8080/?loc=' + this.share.citta).map(res => res.json()).retry();
+  }
+
+  getNextLuoghi(placeid: string, page: number) {
+    return this.http.get(this.hostname + ':8080/?placeid=' + placeid + '&page=' + page).map(res => res.json()).retry();
   }
 
   getRistoranti(radius: number) {
-    // return this.http.get(this.hostname + '/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json());
-    return this.http.get(this.hostname + ':8082/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json());
+    return this.http.get(this.hostname + ':8082/?lat=' + this.share.getLat() + '&lng=' + this.share.getLng() + '&radius=' + radius).map(res => res.json()).retry(2);
   }
 
   getDescrRistoranti(place_id: string) {
-    console.log(place_id)
-    return this.http.get(this.hostname + ':8082/descr?placeid=' + place_id).map(res => res.json());
+    return this.http.get(this.hostname + ':8082/descr?placeid=' + place_id).map(res => res.json()).retry(2);
   }
 
   getTaReviews(ris: string) {
@@ -51,11 +51,11 @@ export class WebScraper {
   }
 
   getPlaceDetails(place_id: string) {
-    return this.http.get(this.hostname + ':8081/?placeid=' + place_id).map(res => res.json());
+    return this.http.get(this.hostname + ':8081/?placeid=' + place_id).map(res => res.json()).retry(2);
   }
 
   getReverseGeocoding(lat: any, lng: any) {
-    return this.http.get(this.hostname + ':8081/reverse?lat=' + lat + "&lng=" + lng).map(res => res.json());
+    return this.http.get(this.hostname + ':8081/reverse?lat=' + lat + "&lng=" + lng).map(res => res.json()).retry(2);
   }
 
   getDescrAttrazioni(attr: string) {

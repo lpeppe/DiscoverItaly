@@ -21,10 +21,10 @@ export class DescrProd {
 
   ionViewDidLoad() {
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
-    this.scraper.getRemoteData(this.navParams.get('link')).subscribe(data => {
+    this.scraper.getDescrProdottiTipici(this.navParams.get('link')).subscribe(data => {
       loading.dismiss();
       this.dataContainer.nativeElement.innerHTML = data.body;
     })

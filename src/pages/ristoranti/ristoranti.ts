@@ -25,21 +25,20 @@ export class Ristoranti {
 
   ionViewDidLoad() {
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
     this.scraper.getRistoranti(5000)
       .subscribe(data => {
         loading.dismiss();
         this.ristoranti = data
-        console.log(this.ristoranti[3].rating)
       })
   }
 
   openDescr(ristorante: any) {
     let options: NativeTransitionOptions = {
       direction: 'up',
-      duration: 600,
+      duration: 1000,
       slowdownfactor: 3,
       slidePixels: 20,
       iosdelay: 0,
@@ -49,6 +48,5 @@ export class Ristoranti {
     };
     this.nativePageTransitions.flip(options);
     this.navCtrl.push(DescrRistPage, ristorante)
-    // console.log(ristorante)
   }
 }

@@ -36,9 +36,9 @@
         </div>
       </div>
       <div #map2 id="map2" [style.height]="(view == 'info') ? '35vh' : '0px'"></div>
-      <div *ngSwitchCase="'info'">
+      <div *ngSwitchCase="'info'" id="slides">
         <ion-slides *ngIf="details != undefined">
-          <ion-slide *ngFor="let img of details.photos" (click) ="openImg($event)">
+          <ion-slide *ngFor="let img of details.photos" (click)="openImg($event)">
             <img [src]="'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference=' + img.photo_reference" />
           </ion-slide>
         </ion-slides>
@@ -47,6 +47,17 @@
 
     <div id="rec">
       <div *ngSwitchCase="'recensioni'">
+        <!-- <div id="avg">
+          <div>
+            <span>Voto medio google: </span>
+          </div>
+          <div>
+            <span>Voto medio tripadvisor: </span>
+          </div>
+          <div>
+            <span>Media generale: </span>
+          </div>
+        </div> -->
         <ion-list>
           <ion-item *ngFor="let recensione of reviews">
             <div class="center">
@@ -70,7 +81,7 @@
           </ion-item>
         </ion-list>
         <ion-spinner *ngIf="!loaded"></ion-spinner>
-        <ion-infinite-scroll (ionInfinite)="scrapeNext($event)">
+        <ion-infinite-scroll (ionInfinite)="scrapeNext($event)" threshold="1000px">
           <ion-infinite-scroll-content></ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </div>

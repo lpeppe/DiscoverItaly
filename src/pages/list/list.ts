@@ -12,46 +12,47 @@ export class ListPage {
   icons: string[];
   items: Array<{ title: string, note: string, icon: string }>;
   htmlResponse: string;
-  luoghi: any;
+  places: any;
+  page: number;
+  placeid: string;
+  hasNext: boolean;
 
   @ViewChild('ionDataContainer') dataContainer: ElementRef;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public scraper: WebScraper, public loadingCtrl: LoadingController,
-  public share: ShareService) {
-    // // If we navigated to this page, we will have an item available as a nav param
-    // this.selectedItem = navParams.get('item');
-    //
-    // // Let's populate this page with some filler content for funzies
-    // this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    // 'american-football', 'boat', 'bluetooth', 'build'];
-    //
-    // this.items = [];
-    // for (let i = 1; i < 11; i++) {
-    //   this.items.push({
-    //     title: 'Item ' + i,
-    //     note: 'This is item #' + i,
-    //     icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-    //   });
-    // }
+    public share: ShareService) {
   }
 
-  // itemTapped(event, item) {
-  //   // That's right, we're pushing to ourselves!
-  //   this.navCtrl.push(ListPage, {
-  //     item: item
-  //   });
-  // }
   ionViewDidLoad() {
+    this.page = 0;
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
-    if (this.share.getProvincia() != undefined) {
+    if (this.share.getCitta() != undefined) {
       loading.present();
-      this.scraper.getLuoghi().subscribe(data => {
-        loading.dismiss();
-        this.luoghi = data;
-      })
+      this.scraper.getLuoghi()
+        .subscribe(data => {
+          loading.dismiss();
+          this.places = data.places;
+          this.placeid = data.placeid;
+          this.hasNext = data.hasNext;
+        })
     }
   }
+
+  scrapeNext(infiniteScroll) {
+    if (this.hasNext) {
+      this.page += 30;
+      this.scraper.getNextLuoghi(this.placeid, this.page)
+        .subscribe(data => {
+          this.places = this.places.concat(data.places);
+          this.hasNext = data.hasNext;
+          infiniteScroll.complete();
+        })
+    }
+    else
+      infiniteScroll.complete();
+  }
+
 }

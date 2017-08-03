@@ -1,3 +1,19 @@
-page-users {
+.ios,
+.md {
+  page-users {
+    ion-list {
+      ion-item {
+        padding-left: 0;
 
+        img {
+          width: 45px;
+          height: 45px;
+        }
+
+        h2 {
+          padding-bottom: 5px;
+        }
+      }
+    }
+  }
 }

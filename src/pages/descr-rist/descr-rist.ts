@@ -63,12 +63,10 @@ export class DescrRistPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams)
     this.page = 0;
     this.loaded = false;
     this.scraper.getDescrRistoranti(this.navParams.get('placeId'))
       .subscribe(data => {
-        console.log(data)
         this.details = data;
         this.reviews = this.details.reviews;
         this.mapPromise.then(_ => {
@@ -119,7 +117,6 @@ export class DescrRistPage {
   }
 
   refreshMap() {
-    console.log('entered')
     if (this.view == "info") {
       this.loadMap();
     }
