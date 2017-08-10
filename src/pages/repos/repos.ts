@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
 import { ShareService } from '../../providers/share-service';
@@ -9,22 +9,19 @@ import {
   GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  LatLng,
   CameraPosition,
   MarkerOptions,
-  Marker,
   ILatLng
 } from '@ionic-native/google-maps';
 import { Toast } from '@ionic-native/toast';
 
-declare var google;
 /**
  * Generated class for the Repos page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-repos',
   templateUrl: 'repos.html'
@@ -48,6 +45,12 @@ export class Repos {
     public share: ShareService, public scraper: WebScraper,
     private autocomplete: Autocomplete, private googleMaps: GoogleMaps,
     private toast: Toast) {
+    this.events.subscribe("menu:open", data => {
+      this.map.setClickable(false);
+    })
+    this.events.subscribe("menu:close", data => {
+      this.map.setClickable(true);
+    })
   }
   ngAfterViewInit() {
     this.platform.ready().then(() => {
@@ -60,7 +63,7 @@ export class Repos {
     this.map = this.googleMaps.create(element);
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(_ => {
-        this.map.setClickable(false);
+        this.map.setClickable(true);
         if (this.share.getLat() == undefined)
           this.gpsRefresh();
         else {
@@ -80,6 +83,7 @@ export class Repos {
         this.share.setCitta(data.citta);
         this.share.setProvincia(data.provincia);
         this.share.setRegione(data.regione);
+        this.scraper.getLuoghi();
       })
   }
 
@@ -107,6 +111,7 @@ export class Repos {
             this.share.setCitta(data.citta);
             this.share.setProvincia(data.provincia);
             this.share.setRegione(data.regione);
+            this.scraper.getLuoghi();
           })
         this.share.setLat(lat);
         this.share.setLng(lng);
@@ -128,5 +133,13 @@ export class Repos {
       tilt: 30
     };
     this.map.animateCamera(position);
+  }
+
+  lockMap(event: any) {
+    this.map.setClickable(false);
+  }
+
+  unlockMap(event: any) {
+    this.map.setClickable(true);
   }
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { IonicModule } from 'ionic-angular';
+import { IonicPageModule } from 'ionic-angular';
 import { Repos } from './repos';
 
 @NgModule({
@@ -7,7 +7,7 @@ import { Repos } from './repos';
     Repos,
   ],
   imports: [
-    //IonicModule.forChild(Repos),
+    // IonicPageModule.forChild(Repos),
   ],
   exports: [
     Repos

@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
 import { ShareService } from '../../providers/share-service';
 
+@IonicPage()
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -31,8 +32,15 @@ export class ListPage {
     });
     if (this.share.getCitta() != undefined) {
       loading.present();
-      this.scraper.getLuoghi()
-        .subscribe(data => {
+      // this.scraper.getLuoghi()
+      //   .subscribe(data => {
+      //     loading.dismiss();
+      //     this.places = data.places;
+      //     this.placeid = data.placeid;
+      //     this.hasNext = data.hasNext;
+      //   })
+      this.scraper.getLuoghiPromise()
+        .then(data => {
           loading.dismiss();
           this.places = data.places;
           this.placeid = data.placeid;

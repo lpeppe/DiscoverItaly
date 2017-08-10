@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { ShareService } from './share-service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/toPromise';
 
 /*
   Generated class for the WebScraper provider.
@@ -14,8 +15,9 @@ import 'rxjs/add/operator/retry';
 @Injectable()
 export class WebScraper {
   hostname: string;
+  luoghiPromise: any;
   constructor(public http: Http, public share: ShareService) {
-    this.hostname = 'http://ec2-52-27-85-145.us-west-2.compute.amazonaws.com';
+    this.hostname = 'http://ec2-52-36-14-51.us-west-2.compute.amazonaws.com';
   }
 
   getProdottiTipici() {
@@ -27,7 +29,11 @@ export class WebScraper {
   }
 
   getLuoghi() {
-    return this.http.get(this.hostname + ':8080/?loc=' + this.share.citta).map(res => res.json()).retry();
+    this.luoghiPromise = this.http.get(this.hostname + ':8080/?loc=' + this.share.citta).map(res => res.json()).retry().toPromise();
+  }
+
+  getLuoghiPromise() {
+    return this.luoghiPromise;
   }
 
   getNextLuoghi(placeid: string, page: number) {

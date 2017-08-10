@@ -1,9 +1,16 @@
 .ios,
 .md {
   page-descr-prod {
-
     p {
-      font-size: 1.1em;
+      font-size: 1.2em;
+    }
+
+    strong {
+      font-weight: normal;
+    }
+
+    h4 {
+      color: #ff2121;
     }
 
     div.vc_empty_space {
@@ -13,13 +20,13 @@
     table {
       border-collapse: collapse;
 
-        tr:nth-child(even) {
-          background-color: #f2f2f2;
-        }
+      tr:nth-child(even) {
+        background-color: #9ef7b8;
+      }
 
-        tr {
-          font-size: 1.1em;
-        }
+      tr {
+        font-size: 1.2em;
+      }
     }
 
     table,

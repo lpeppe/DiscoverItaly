@@ -28,7 +28,7 @@ export class Ristoranti {
       content: 'Caricamento...'
     });
     loading.present();
-    this.scraper.getRistoranti(5000)
+    this.scraper.getRistoranti(2000)
       .subscribe(data => {
         loading.dismiss();
         this.ristoranti = data

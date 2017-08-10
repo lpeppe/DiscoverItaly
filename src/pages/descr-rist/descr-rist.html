@@ -47,17 +47,21 @@
 
     <div id="rec">
       <div *ngSwitchCase="'recensioni'">
-        <!-- <div id="avg">
-          <div>
-            <span>Voto medio google: </span>
+        <ion-list-header>
+          <div id="avg">
+            <div>
+              <span item-start text-wrap>Voto Google: </span>
+              <span item-end text-wrap class="end" *ngIf="navParams.get('rating') != undefined">{{navParams.get('rating')}}/5</span>
+              <span item-end text-wrap class="end" *ngIf="navParams.get('rating') == undefined">Nessuna valutazione!</span>
+            </div>
+            <div>
+              <span item-start text-wrap class="start">Voto Tripadvisor: </span>
+              <ion-spinner item-end text-wrap class="end" *ngIf="!loaded" name="dots"></ion-spinner>
+              <span item-end text-wrap class="end" *ngIf="loaded && rating != undefined">{{rating}}/5</span>
+              <span item-end text-wrap class="end" *ngIf="loaded && rating == undefined">Nessuna valutazione!</span>
+            </div>
           </div>
-          <div>
-            <span>Voto medio tripadvisor: </span>
-          </div>
-          <div>
-            <span>Media generale: </span>
-          </div>
-        </div> -->
+        </ion-list-header>
         <ion-list>
           <ion-item *ngFor="let recensione of reviews">
             <div class="center">

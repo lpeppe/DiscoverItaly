@@ -1,15 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
 import { Platform } from 'ionic-angular';
 import {
   GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  LatLng,
   CameraPosition,
   MarkerOptions,
-  Marker,
   ILatLng
 } from '@ionic-native/google-maps';
 import { CallNumber } from '@ionic-native/call-number';
@@ -34,6 +32,7 @@ export class DescrRistPage {
   details: any;
   reviews: any;
   hasNext: boolean;
+  rating: any;
   loaded: boolean;
   placeId: string;
   risId: string;
@@ -57,7 +56,7 @@ export class DescrRistPage {
     this.map = this.googleMaps.create(this.mapDiv.nativeElement);
     this.mapPromise = this.map.one(GoogleMapsEvent.MAP_READY)
       .then(_ => {
-        this.map.setClickable(false);
+        this.map.setClickable(true);
         this.map.setVisible(true);
       })
   }
@@ -91,14 +90,19 @@ export class DescrRistPage {
       })
     this.scraper.getTaReviews(this.navParams.get('name'))
       .subscribe(data => {
-        this.loaded = true;
-        this.placeId = data.placeId;
-        this.risId = data.risId;
-        this.hasNext = data.hasNext;
-        if (this.reviews != undefined)
-          this.reviews = this.reviews.concat(data.reviews)
+        if (data != "no data") {
+          this.loaded = true;
+          this.placeId = data.placeId;
+          this.risId = data.risId;
+          this.hasNext = data.hasNext;
+          this.rating = data.avgRating;
+          if (this.reviews != undefined)
+            this.reviews = this.reviews.concat(data.reviews)
+          else
+            this.reviews = data.reviews
+        }
         else
-          this.reviews = data.reviews
+          this.loaded = true;
       })
   }
 

@@ -23,7 +23,7 @@
         </button>
       </ion-col>
       <ion-col col-10>
-        <ion-auto-complete [dataProvider]="autocomplete" [options]="{ placeholder : 'Cerca' }" (itemSelected) = buttonListener($event)></ion-auto-complete>
+        <ion-auto-complete [dataProvider]="autocomplete" [options]="{ placeholder : 'Cerca' }" (itemSelected) = buttonListener($event) (itemsShown) = lockMap($event) (itemsHidden) = unlockMap($event)></ion-auto-complete>
       </ion-col>
     </ion-row>
   </ion-grid>
