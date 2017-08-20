@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
+import { CacheModule } from "ionic-cache";
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -11,6 +12,9 @@ import { Repos } from '../pages/repos/repos';
 import { DescrProd } from '../pages/descr-prod/descr-prod';
 import { Ristoranti } from '../pages/ristoranti/ristoranti';
 import { DescrRistPage } from '../pages/descr-rist/descr-rist';
+import { DescSagra } from '../pages/desc-sagra/desc-sagra';
+import { Sagre } from '../pages/sagre/sagre';
+import { DescAttr } from '../pages/desc-attr/desc-attr';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,13 +38,17 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     Repos,
     DescrProd,
     Ristoranti,
-    DescrRistPage
+    DescrRistPage,
+    DescSagra,
+    DescAttr,
+    Sagre
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    CacheModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,7 +59,10 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     Repos,
     DescrProd,
     Ristoranti,
-    DescrRistPage
+    DescrRistPage,
+    DescSagra,
+    DescAttr,
+    Sagre
   ],
   providers: [
     StatusBar,

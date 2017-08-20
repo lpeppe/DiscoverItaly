@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { NavController, NavParams, Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { ShareService } from '../../providers/share-service';
 import { WebScraper } from '../../providers/web-scraper';
 import { Autocomplete } from '../../providers/autocomplete';
@@ -44,7 +45,7 @@ export class Repos {
     public events: Events, public platform: Platform, public geo: Geolocation,
     public share: ShareService, public scraper: WebScraper,
     private autocomplete: Autocomplete, private googleMaps: GoogleMaps,
-    private toast: Toast) {
+    private toast: Toast, public splashScreen: SplashScreen) {
     this.events.subscribe("menu:open", data => {
       this.map.setClickable(false);
     })
@@ -55,6 +56,7 @@ export class Repos {
   ngAfterViewInit() {
     this.platform.ready().then(() => {
       this.loadMap();
+      this.splashScreen.hide();
     })
   }
 

@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
 import { ShareService } from '../../providers/share-service';
+import { DescAttr } from '../desc-attr/desc-attr';
 
 @IonicPage()
 @Component({
@@ -61,6 +62,11 @@ export class ListPage {
     }
     else
       infiniteScroll.complete();
+  }
+
+  openDescr(luogo: any) {
+    console.log(luogo)
+    this.navCtrl.push(DescAttr, luogo)
   }
 
 }

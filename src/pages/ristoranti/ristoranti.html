@@ -35,6 +35,7 @@
     (load)="loaded = true"
     [ngClass]="{'img-loaded':loaded}"
     [hidden]="!loaded"/>
+
     <ion-spinner [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
     <div class="rating">
       <div *ngIf="ristorante.rating != undefined" class="star-ratings-sprite">

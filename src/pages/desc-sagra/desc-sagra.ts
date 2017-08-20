@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { WebScraper } from '../../providers/web-scraper';
 
 /**
  * Generated class for the DescSagra page.
@@ -12,13 +13,33 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-desc-sagra',
   templateUrl: 'desc-sagra.html',
 })
-export class DescSagra {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+export class DescSagra {
+  url : string
+  sap : string
+  trovato : boolean
+  @ViewChild('ionDataContainer') dataContainer: ElementRef;
+  @ViewChild('ionSapevate') sapevate: ElementRef;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public scraper: WebScraper) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DescSagra');
+    this.url = this.navParams.get("href");
+    this.trovato = false
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+    this.scraper.getDescrSagre(this.navParams.get('href')).subscribe(data => {
+      loading.dismiss();
+      this.dataContainer.nativeElement.innerHTML = data[0].body;
+      this.sap = data[0].sapevate
+      console.log(this.sap)
+      if(this.sap != null)
+          this.sapevate.nativeElement.style.backgroundColor = 'rgb(' + 240 + ',' + 230 + ',' + 140 + ')'
+      this.sapevate.nativeElement.innerHTML = data[0].sapevate;
+      console.log(data)
+    })
   }
 
 }

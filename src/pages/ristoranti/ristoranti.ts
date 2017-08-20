@@ -37,9 +37,9 @@ export class Ristoranti {
 
   openDescr(ristorante: any) {
     let options: NativeTransitionOptions = {
-      direction: 'up',
+      direction: 'right',
       duration: 1000,
-      slowdownfactor: 3,
+      slowdownfactor: 1,
       slidePixels: 20,
       iosdelay: 0,
       androiddelay: 0,

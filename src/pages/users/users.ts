@@ -31,6 +31,8 @@ export class Users {
       .subscribe(data => {
         loading.dismiss();
         this.prodotti = data;
+      }, error => {
+        loading.dismiss();
       })
   }
 

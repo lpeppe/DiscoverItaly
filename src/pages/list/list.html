@@ -12,7 +12,7 @@
     <span text-wrap>Nessun luogo di interesse trovato!</span>
   </ion-item>
   <ion-list>
-    <ion-item *ngFor="let luogo of places">
+    <ion-item *ngFor="let luogo of places" (click)="openDescr(luogo)">
       <ion-thumbnail item-start>
         <img [src]="(luogo.img == undefined) ? 'assets/noimg.png' : luogo.img" >
       </ion-thumbnail>

@@ -2,15 +2,15 @@
 .md {
   page-descr-rist {
     div#info {
-      // div#slides {
-      //   width: 80vw;
-      //
-      //   display: flex;
-      //   justify-content: center;
-      // }
+
+      div.isOpen {
+        min-width: 60vw;
+        display: flex;
+        flex-flow: row;
+      }
+
       ion-slides {
         margin-top: 10px;
-        // margin-bottom: 10px;
         height: 25vh;
         width: auto;
       }

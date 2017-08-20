@@ -18,7 +18,8 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let prodotto of prodotti" (click)="openDescr(prodotto)">
-      <img [src]="'assets/custom_icons/' + prodotto.merceologia.toLowerCase() + '.png'" item-start>
+      <img *ngIf="prodotto.merceologia != ''" [src]="'assets/custom_icons/' + prodotto.merceologia.toLowerCase() + '.png'" item-start>
+      <img *ngIf="prodotto.merceologia == ''" [src]="'assets/custom_icons/altri prodotti.png'" item-start>
       <h2 text-wrap>{{prodotto.nome}}</h2>
       <h3>{{prodotto.merceologia}}</h3>
       <h3>{{prodotto.tipologia}}</h3>

@@ -22,7 +22,7 @@ export class Autocomplete implements AutoCompleteService {
   getResults(keyword: string) {
     var request = {
       input: keyword,
-      componentRestrictions: { country: 'it' },
+      componentRestrictions: { country: 'it' }
     };
     return new Observable(observer => {
       this.autocomplete.getPlacePredictions(request, (pred, status) => {

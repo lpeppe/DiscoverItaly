@@ -2,11 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CacheService } from "ionic-cache";
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Users } from '../pages/users/users';
 import { Repos } from '../pages/repos/repos';
+import { Sagre } from '../pages/sagre/sagre';
 import { Ristoranti } from '../pages/ristoranti/ristoranti';
 import { ShareService } from '../providers/share-service';
 import { WebScraper } from '../providers/web-scraper';
@@ -24,17 +26,18 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar,
-    public splashScreen: SplashScreen, public events: Events) {
+    public events: Events, public cache: CacheService) {
     this.initializeApp();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Seleziona luogo', component: Repos },
-      { title: 'Home', component: HomePage },
+      // { title: 'Home', component: HomePage },
       { title: 'Luoghi di interesse', component: ListPage },
       { title: 'Ristoranti', component: Ristoranti},
-      { title: 'Prodotti Tipici', component: Users }
+      { title: 'Prodotti Tipici', component: Users },
+      { title: 'Sagre', component: Sagre}
     ];
-
+    cache.setDefaultTTL(60 * 60);
   }
 
   initializeApp() {
@@ -42,7 +45,6 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
     });
   }
 

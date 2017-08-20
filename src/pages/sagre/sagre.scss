@@ -2,17 +2,22 @@ page-sagre {
 
   .card-background-page {
 
+      background-color: rgb(178, 34, 34);
+
   .card-country {
     font-weight: bold;
     font-size: 120%;
     text-align: center;
-
     padding-bottom: 20px;
     padding-top: 10px;
   }
+
+
+
   img {
     border-radius: 5%;
-    // padding-bottom: 20px;
+    border-color: black;
+    border-width: 2px;
     padding-right: 10px;
     padding-left: 10px;
   }
@@ -21,11 +26,10 @@ page-sagre {
 
   ion-card {
     margin-bottom: 30px !important;
+    background-color: rgb(240,230,140)
   }
 
-  .img-loaded + ion-spinner {
-    display: none;
-  }
+
 
   .center {
     margin-left: auto;

@@ -44,6 +44,7 @@ export class DescrRistPage {
     public scraper: WebScraper, public platform: Platform,
     private googleMaps: GoogleMaps, private callNumber: CallNumber,
     private launchNavigator: LaunchNavigator, private photoViewer: PhotoViewer) {
+    this.reviews = [];
   }
 
   ngAfterViewInit() {
@@ -91,18 +92,13 @@ export class DescrRistPage {
     this.scraper.getTaReviews(this.navParams.get('name'))
       .subscribe(data => {
         if (data != "no data") {
-          this.loaded = true;
           this.placeId = data.placeId;
           this.risId = data.risId;
           this.hasNext = data.hasNext;
           this.rating = data.avgRating;
-          if (this.reviews != undefined)
-            this.reviews = this.reviews.concat(data.reviews)
-          else
-            this.reviews = data.reviews
+          setTimeout(_ => this.reviews = this.reviews.concat(data.reviews), 1000);
         }
-        else
-          this.loaded = true;
+        this.loaded = true;
       })
   }
 

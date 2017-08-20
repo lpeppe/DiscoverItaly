@@ -18,13 +18,15 @@ export class Sagre {
   myDate: Date;
   index: number;
   bool : boolean;
+  src :string
   @ViewChild('ionDataContainer') dataContainer: ElementRef;
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public scraper: WebScraper) {
   }
 
   ionViewDidLoad() {
     this.bool = true;
-    this.index = 0
+    this.index = 0;
+
     var mesi = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
     this.myDate = new Date()
     console.log(mesi[this.myDate.getMonth()]);
@@ -37,6 +39,8 @@ export class Sagre {
     this.scraper.getSagre("campania","napoli",mesi[this.myDate.getMonth()],this.index).subscribe(data => {
       loading.dismiss();
       this.sagre = data
+        console.log(data)
+
     })
   }
 
@@ -52,6 +56,7 @@ doInfinite(infiniteScroll){
     this.scraper.getSagre("campania","napoli",mesi[this.myDate.getMonth()],this.index).subscribe(data => {
 
       console.log(data)
+      console.log(data.img)
       if(data.length < 10){
         this.bool = false;
       }
@@ -72,6 +77,7 @@ doInfinite(infiniteScroll){
 }
 
 openDescr(sagra: any) {
+
   this.navCtrl.push(DescSagra, sagra)
   // console.log(ristorante)
 }

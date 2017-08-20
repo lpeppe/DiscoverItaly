@@ -7,7 +7,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Descrizione</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Discovery Italy</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,6 +18,8 @@
 
 <ion-content padding>
 
+  <img *ngIf= "(image != 'noimg')" src = "{{image}}" />
+  <h3 id="salve">{{title}}</h3>
   <div #ionDataContainer>
 
   </div>
