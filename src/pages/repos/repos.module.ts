@@ -4,7 +4,7 @@ import { Repos } from './repos';
 
 @NgModule({
   declarations: [
-    Repos,
+    Repos
   ],
   imports: [
     // IonicPageModule.forChild(Repos),

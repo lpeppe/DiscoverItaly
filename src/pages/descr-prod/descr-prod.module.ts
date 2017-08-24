@@ -4,7 +4,7 @@ import { DescrProd } from './descr-prod';
 
 @NgModule({
   declarations: [
-    DescrProd,
+    DescrProd
   ],
   imports: [
     // IonicModule.forChild(DescrProd),

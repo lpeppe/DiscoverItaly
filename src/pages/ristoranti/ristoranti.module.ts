@@ -4,7 +4,7 @@ import { Ristoranti } from './ristoranti';
 
 @NgModule({
   declarations: [
-    Ristoranti,
+    Ristoranti
   ],
   imports: [
     // IonicModule.forChild(Ristoranti),

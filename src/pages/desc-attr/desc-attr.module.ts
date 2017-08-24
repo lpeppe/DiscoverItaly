@@ -4,7 +4,7 @@ import { DescAttr } from './desc-attr';
 
 @NgModule({
   declarations: [
-    DescAttr,
+    DescAttr
   ],
   imports: [
   //  IonicModule.forChild(DescAttr),

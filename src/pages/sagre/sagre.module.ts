@@ -4,7 +4,7 @@ import { Sagre } from './sagre';
 
 @NgModule({
   declarations: [
-    Sagre,
+    Sagre
   ],
   imports: [
   //  IonicModule.forChild(Sagre),

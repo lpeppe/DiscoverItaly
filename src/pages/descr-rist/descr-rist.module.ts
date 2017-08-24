@@ -4,7 +4,7 @@ import { DescrRistPage } from './descr-rist';
 
 @NgModule({
   declarations: [
-    DescrRistPage,
+    DescrRistPage
   ],
   imports: [
     //IonicModule.forChild(DescrRistPage),

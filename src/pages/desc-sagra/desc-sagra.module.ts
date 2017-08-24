@@ -4,7 +4,7 @@ import { DescSagra } from './desc-sagra';
 
 @NgModule({
   declarations: [
-    DescSagra,
+    DescSagra
   ],
   imports: [
   //  IonicModule.forChild(DescSagra),

@@ -28,11 +28,17 @@ export class Ristoranti {
       content: 'Caricamento...'
     });
     loading.present();
-    this.scraper.getRistoranti(2000)
-      .subscribe(data => {
-        loading.dismiss();
-        this.ristoranti = data
-      })
+    // this.scraper.getRistoranti(2000)
+    //   .subscribe(data => {
+    //     loading.dismiss();
+    //     this.ristoranti = data
+    //   })
+    this.scraper.getRistPromise()
+    .then(data => {
+      loading.dismiss();
+      this.ristoranti = data;
+    })
+    .catch(_ => loading.dismiss())
   }
 
   openDescr(ristorante: any) {

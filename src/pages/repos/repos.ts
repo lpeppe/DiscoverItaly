@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { NavController, NavParams, Events } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
-import {Geolocation} from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ShareService } from '../../providers/share-service';
 import { WebScraper } from '../../providers/web-scraper';
@@ -76,8 +76,9 @@ export class Repos {
   }
 
   buttonListener(item: any) {
-    this.scraper.getPlaceDetails(item.place_id)
-      .subscribe(data => {
+    this.scraper.getData(item.place_id)
+    this.scraper.getPdPromise()
+      .then(data => {
         this.moveMarker(data.lat, data.lng)
           .then(_ => this.moveCamera(data.lat, data.lng))
         this.share.setLat(data.lat);
@@ -85,8 +86,18 @@ export class Repos {
         this.share.setCitta(data.citta);
         this.share.setProvincia(data.provincia);
         this.share.setRegione(data.regione);
-        this.scraper.getLuoghi();
       })
+    // this.scraper.getPlaceDetails(item.place_id)
+    //   .subscribe(data => {
+    //     this.moveMarker(data.lat, data.lng)
+    //       .then(_ => this.moveCamera(data.lat, data.lng))
+    //     this.share.setLat(data.lat);
+    //     this.share.setLng(data.lng);
+    //     this.share.setCitta(data.citta);
+    //     this.share.setProvincia(data.provincia);
+    //     this.share.setRegione(data.regione);
+    //     this.scraper.getLuoghi();
+    //   })
   }
 
   moveMarker(lat: any, lng: any) {
@@ -108,15 +119,16 @@ export class Repos {
         let lng = loc.latLng.lng;
         this.moveMarker(lat, lng)
           .then(_ => this.moveCamera(lat, lng))
-        this.scraper.getReverseGeocoding(lat, lng)
-          .subscribe(data => {
-            this.share.setCitta(data.citta);
-            this.share.setProvincia(data.provincia);
-            this.share.setRegione(data.regione);
-            this.scraper.getLuoghi();
-          })
-        this.share.setLat(lat);
-        this.share.setLng(lng);
+        // this.scraper.getReverseGeocoding(lat, lng)
+        //   .subscribe(data => {
+        //     this.share.setCitta(data.citta);
+        //     this.share.setProvincia(data.provincia);
+        //     this.share.setRegione(data.regione);
+        //     this.scraper.getLuoghi();
+        //   })
+        // this.share.setLat(lat);
+        // this.share.setLng(lng);
+        this.scraper.getRevData(lat, lng)
       }, _ => {
         this.toast.show('GPS disattivato', '5000', 'center').subscribe(
           toast => {

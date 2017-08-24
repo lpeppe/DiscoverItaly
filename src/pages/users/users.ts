@@ -27,13 +27,19 @@ export class Users {
       content: 'Caricamento...'
     });
     loading.present();
-    this.scraper.getProdottiTipici()
-      .subscribe(data => {
-        loading.dismiss();
-        this.prodotti = data;
-      }, error => {
-        loading.dismiss();
-      })
+    // this.scraper.getProdottiTipici()
+    //   .subscribe(data => {
+    //     loading.dismiss();
+    //     this.prodotti = data;
+    //   }, error => {
+    //     loading.dismiss();
+    //   })
+    this.scraper.getQcPromise()
+    .then(data => {
+      loading.dismiss();
+      this.prodotti = data;
+    })
+    .catch(_ => loading.dismiss())
   }
 
   openDescr(prodotto) {

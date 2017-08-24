@@ -5,6 +5,7 @@ import { CacheService } from "ionic-cache";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/toPromise';
+import * as socketIo from 'socket.io-client';
 
 /*
   Generated class for the WebScraper provider.
@@ -16,18 +17,73 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class WebScraper {
   hostname: string;
+  pdPromise: any;
   luoghiPromise: any;
+  ristPromise: any;
+  qcPromise: any;
+  socket: any;
   constructor(public http: Http, public share: ShareService, private cache: CacheService) {
     this.hostname = 'http://ec2-34-211-229-249.us-west-2.compute.amazonaws.com';
+    this.socket = socketIo(this.hostname + ':8090');
+  }
+
+  getRevData(lat: any, lng: any) {
+    this.socket.emit('getRevData', {
+      lat: lat,
+      lng: lng
+    })
+    this.share.setLat(lat);
+    this.share.setLng(lng);
+    this.pdPromise = new Promise((resolve, reject) => {
+      this.socket.on('placeDetails', (data) => resolve(JSON.parse(data)))
+    })
+    this.ristPromise = new Promise((resolve, reject) => {
+      this.socket.on('ristoranti', (data) => resolve(JSON.parse(data)))
+    })
+    this.qcPromise = new Promise((resolve, reject) => {
+      this.socket.on('qc', (data) => resolve(data))
+    })
+    this.luoghiPromise = new Promise((resolve, reject) => {
+      this.socket.on('taAttr', (data) => {
+        resolve(JSON.parse(data))
+        console.log(data)
+      })
+    })
+  }
+
+  getData(placeid: string) {
+    this.socket.emit('getData', {
+      placeid: placeid
+    })
+    this.pdPromise = new Promise((resolve, reject) => {
+      this.socket.on('placeDetails', (data) => {
+        var data = JSON.parse(data);
+        resolve(data)
+        this.share.setLat(data.lat);
+        this.share.setLng(data.lng);
+      })
+    })
+    this.ristPromise = new Promise((resolve, reject) => {
+      this.socket.on('ristoranti', (data) => resolve(JSON.parse(data)))
+    })
+    this.qcPromise = new Promise((resolve, reject) => {
+      this.socket.on('qc', (data) => resolve(data))
+    })
+    this.luoghiPromise = new Promise((resolve, reject) => {
+      this.socket.on('taAttr', (data) => resolve(JSON.parse(data)))
+    })
   }
 
   getProdottiTipici() {
-    // return this.http.get(this.hostname + ':8084/?regione=' + this.share.regione.toLowerCase()).map(res => res.json()).retry(2);
-    return this.http.get(this.hostname + ':8090/qc?regione=' + this.share.regione.toLowerCase()).map(res => res.json()).retry(2);
+    // return this.http.get(this.hostname + ':8090/qc?regione=' + this.share.regione.toLowerCase()).map(res => res.json()).retry(2);
+    let request = this.http.get(this.hostname + ':8090/qc?regione=' + this.share.regione.toLowerCase()).map(res => res.json()).retry(2);
+    return this.cache.loadFromObservable(this.share.regione.toLowerCase(), request);
   }
 
   getDescrProdottiTipici(link) {
-    return this.http.get(this.hostname + ':8090/qcpage?link=' + link).map(res => res.json()).retry(2);
+    // return this.http.get(this.hostname + ':8090/qcpage?link=' + link).map(res => res.json()).retry(2);
+    let request = this.http.get(this.hostname + ':8090/qcpage?link=' + link).map(res => res.json()).retry(2);
+    return this.cache.loadFromObservable(link, request);
   }
 
   getLuoghi() {
@@ -36,6 +92,18 @@ export class WebScraper {
 
   getLuoghiPromise() {
     return this.luoghiPromise;
+  }
+
+  getRistPromise() {
+    return this.ristPromise;
+  }
+
+  getPdPromise() {
+    return this.pdPromise;
+  }
+
+  getQcPromise() {
+    return this.qcPromise;
   }
 
   getNextLuoghi(placeid: string, page: number) {
@@ -70,8 +138,9 @@ export class WebScraper {
   }
 
   getDescrAttrazioni(attr: string) {
-    return this.http.get(this.hostname + ':8090/wiki?loc=' + this.share.citta.toLowerCase() + '&attr=' + attr).map(res => res.json());
-    // return this.http.get(this.hostname + ':8090/wiki?loc=roma&attr='+ attr).map(res => res.json());
+    // return this.http.get(this.hostname + ':8090/wiki?loc=' + this.share.citta.toLowerCase() + '&attr=' + attr).map(res => res.json());
+    let request = this.http.get(this.hostname + ':8090/wiki?loc=' + this.share.citta.toLowerCase() + '&attr=' + attr).map(res => res.json());
+    return this.cache.loadFromObservable(this.share.citta.toLowerCase() + "-" + attr, request);
   }
 
   getSagre(regione: string, provincia: string, mese: string, index: number) {

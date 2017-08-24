@@ -4,7 +4,7 @@ import { Users } from './users';
 
 @NgModule({
   declarations: [
-    Users,
+    Users
   ],
   imports: [
     //IonicModule.forChild(Users),
