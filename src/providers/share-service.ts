@@ -17,7 +17,9 @@ export class ShareService {
   lat: any;
   lng: any;
   luoghi: any;
+  placeSelected: boolean;
   constructor(public http: Http) {
+    this.placeSelected = false;
   }
 
   getCitta() {
@@ -58,5 +60,13 @@ export class ShareService {
 
   setLng(lng: any) {
     this.lng = lng;
+  }
+
+  isPlaceSelected() {
+    return this.placeSelected;
+  }
+
+  setPlaceSelected() {
+    this.placeSelected = true;
   }
 }

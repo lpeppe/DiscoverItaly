@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { WebScraper } from '../../providers/web-scraper';
+import { ShareService } from '../../providers/share-service';
 import { DescrRistPage } from '../descr-rist/descr-rist';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 
@@ -20,25 +21,27 @@ export class Ristoranti {
   ristoranti: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public scraper: WebScraper, public loadingCtrl: LoadingController,
-    private nativePageTransitions: NativePageTransitions) {
+    private nativePageTransitions: NativePageTransitions, public share: ShareService) {
   }
 
   ionViewDidLoad() {
-    let loading = this.loadingCtrl.create({
-      content: 'Caricamento...'
-    });
-    loading.present();
-    // this.scraper.getRistoranti(2000)
-    //   .subscribe(data => {
-    //     loading.dismiss();
-    //     this.ristoranti = data
-    //   })
-    this.scraper.getRistPromise()
-    .then(data => {
-      loading.dismiss();
-      this.ristoranti = data;
-    })
-    .catch(_ => loading.dismiss())
+    if (this.share.isPlaceSelected()) {
+      let loading = this.loadingCtrl.create({
+        content: 'Caricamento...'
+      });
+      loading.present();
+      // this.scraper.getRistoranti(2000)
+      //   .subscribe(data => {
+      //     loading.dismiss();
+      //     this.ristoranti = data
+      //   })
+      this.scraper.getRistPromise()
+        .then(data => {
+          loading.dismiss();
+          this.ristoranti = data;
+        })
+        .catch(_ => loading.dismiss())
+    }
   }
 
   openDescr(ristorante: any) {

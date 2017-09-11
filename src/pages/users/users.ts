@@ -23,23 +23,25 @@ export class Users {
   }
 
   ionViewDidLoad() {
-    let loading = this.loadingCtrl.create({
-      content: 'Caricamento...'
-    });
-    loading.present();
-    // this.scraper.getProdottiTipici()
-    //   .subscribe(data => {
-    //     loading.dismiss();
-    //     this.prodotti = data;
-    //   }, error => {
-    //     loading.dismiss();
-    //   })
-    this.scraper.getQcPromise()
-    .then(data => {
-      loading.dismiss();
-      this.prodotti = data;
-    })
-    .catch(_ => loading.dismiss())
+    if (this.share.isPlaceSelected()) {
+      let loading = this.loadingCtrl.create({
+        content: 'Caricamento...'
+      });
+      loading.present();
+      // this.scraper.getProdottiTipici()
+      //   .subscribe(data => {
+      //     loading.dismiss();
+      //     this.prodotti = data;
+      //   }, error => {
+      //     loading.dismiss();
+      //   })
+      this.scraper.getQcPromise()
+        .then(data => {
+          loading.dismiss();
+          this.prodotti = data;
+        })
+        .catch(_ => loading.dismiss())
+    }
   }
 
   openDescr(prodotto) {

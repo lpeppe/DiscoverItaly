@@ -17,24 +17,27 @@
 
 
 <ion-content padding>
+  <ion-item *ngIf="!share.isPlaceSelected()">
+    <span text-wrap>Nessun luogo selezionato!</span>
+  </ion-item>
   <ion-card *ngFor="let ristorante of ristoranti" (click)="openDescr(ristorante)">
     <div class="card-title">
       {{ristorante.name}}
     </div>
 
     <!-- enabled imgs -->
-    <!-- <img [src]= "(ristorante.photo != undefined) ?
+    <img [src]= "(ristorante.photo != undefined) ?
     'https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyD_9bj_Ao6nklX7PWrM_1E-iDH4EPVWV6A&maxwidth=1600&photoreference='
     + ristorante.photo : 'assets/noimg.png'"
     (load)="loaded = true"
     [ngClass]="{'img-loaded':loaded}"
-    [hidden]="!loaded"/> -->
+    [hidden]="!loaded"/>
 
     <!-- disabled imgs to reduce api consumption -->
-    <img src= 'assets/noimg.png'
+    <!-- <img src= 'assets/noimg.png'
     (load)="loaded = true"
     [ngClass]="{'img-loaded':loaded}"
-    [hidden]="!loaded"/>
+    [hidden]="!loaded"/> -->
 
     <ion-spinner [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
     <div class="rating">

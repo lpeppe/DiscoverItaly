@@ -8,8 +8,11 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-  <ion-item *ngIf="places != undefined && places.length == 0">
+  <ion-item *ngIf="share.isPlaceSelected() && places != undefined && places.length == 0">
     <span text-wrap>Nessun luogo di interesse trovato!</span>
+  </ion-item>
+  <ion-item *ngIf="!share.isPlaceSelected()">
+    <span text-wrap>Nessun luogo selezionato!</span>
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let luogo of places" (click)="openDescr(luogo)">

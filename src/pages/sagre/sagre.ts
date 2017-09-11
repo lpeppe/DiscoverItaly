@@ -31,7 +31,7 @@ export class Sagre {
     this.myDate = new Date()
     console.log(mesi[this.myDate.getMonth()]);
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
         this.index++

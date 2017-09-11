@@ -31,7 +31,7 @@ export class DescAttr {
     this.name = replaceAll(this.name,"'","%27")
     console.log(this.name)
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
     this.scraper.getDescrAttrazioni(this.name).subscribe(data => {

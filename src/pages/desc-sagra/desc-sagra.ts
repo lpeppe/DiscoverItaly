@@ -27,7 +27,7 @@ export class DescSagra {
     this.url = this.navParams.get("href");
     this.trovato = false
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Caricamento...'
     });
     loading.present();
     this.scraper.getDescrSagre(this.navParams.get('href')).subscribe(data => {

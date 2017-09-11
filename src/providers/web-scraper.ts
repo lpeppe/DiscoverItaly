@@ -34,33 +34,26 @@ export class WebScraper {
     })
     this.share.setLat(lat);
     this.share.setLng(lng);
-    this.pdPromise = new Promise((resolve, reject) => {
-      this.socket.on('placeDetails', (data) => resolve(JSON.parse(data)))
-    })
-    this.ristPromise = new Promise((resolve, reject) => {
-      this.socket.on('ristoranti', (data) => resolve(JSON.parse(data)))
-    })
-    this.qcPromise = new Promise((resolve, reject) => {
-      this.socket.on('qc', (data) => resolve(data))
-    })
-    this.luoghiPromise = new Promise((resolve, reject) => {
-      this.socket.on('taAttr', (data) => {
-        resolve(JSON.parse(data))
-        console.log(data)
-      })
-    })
+    this.generatePromises();
+    this.share.setPlaceSelected();
   }
 
   getData(placeid: string) {
     this.socket.emit('getData', {
       placeid: placeid
     })
+    this.generatePromises();
+    this.share.setPlaceSelected();
+  }
+
+  generatePromises() {
     this.pdPromise = new Promise((resolve, reject) => {
       this.socket.on('placeDetails', (data) => {
         var data = JSON.parse(data);
         resolve(data)
         this.share.setLat(data.lat);
         this.share.setLng(data.lng);
+        this.share.setCitta(data.citta);
       })
     })
     this.ristPromise = new Promise((resolve, reject) => {

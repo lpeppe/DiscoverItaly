@@ -31,7 +31,7 @@ export class ListPage {
     let loading = this.loadingCtrl.create({
       content: 'Caricamento...'
     });
-    if (this.share.getCitta() != undefined) {
+    if (this.share.isPlaceSelected()) {
       loading.present();
       // this.scraper.getLuoghi()
       //   .subscribe(data => {
@@ -42,11 +42,13 @@ export class ListPage {
       //   })
       this.scraper.getLuoghiPromise()
         .then(data => {
+          console.log('hi')
           loading.dismiss();
           this.places = data.places;
           this.placeid = data.placeid;
           this.hasNext = data.hasNext;
         })
+        .catch(_ => console.log('error'))
     }
   }
 

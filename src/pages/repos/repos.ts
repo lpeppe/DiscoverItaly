@@ -66,11 +66,13 @@ export class Repos {
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(_ => {
         this.map.setClickable(true);
+        if(!this.share.isPlaceSelected())
+          this.moveCamera(42.2215152, 12.809727, 5.4, false)
         if (this.share.getLat() == undefined)
           this.gpsRefresh();
         else {
           this.moveMarker(this.share.getLat(), this.share.getLng())
-            .then(_ => this.moveCamera(this.share.getLat(), this.share.getLng()))
+            .then(_ => this.moveCamera(this.share.getLat(), this.share.getLng(), 18, true))
         }
       })
   }
@@ -80,7 +82,7 @@ export class Repos {
     this.scraper.getPdPromise()
       .then(data => {
         this.moveMarker(data.lat, data.lng)
-          .then(_ => this.moveCamera(data.lat, data.lng))
+          .then(_ => this.moveCamera(data.lat, data.lng, 18, true))
         this.share.setLat(data.lat);
         this.share.setLng(data.lng);
         this.share.setCitta(data.citta);
@@ -118,7 +120,7 @@ export class Repos {
         let lat = loc.latLng.lat;
         let lng = loc.latLng.lng;
         this.moveMarker(lat, lng)
-          .then(_ => this.moveCamera(lat, lng))
+          .then(_ => this.moveCamera(lat, lng, 18, true))
         // this.scraper.getReverseGeocoding(lat, lng)
         //   .subscribe(data => {
         //     this.share.setCitta(data.citta);
@@ -137,16 +139,19 @@ export class Repos {
       })
   }
 
-  moveCamera(lat: any, lng: any) {
+  moveCamera(lat: any, lng: any, zoom: number, animate: boolean) {
     let position: CameraPosition = {
       target: {
         lat: lat,
         lng: lng
       },
-      zoom: 18,
+      zoom: zoom,
       tilt: 30
     };
-    this.map.animateCamera(position);
+    if(animate)
+      this.map.animateCamera(position);
+    else
+    this.map.moveCamera(position);
   }
 
   lockMap(event: any) {
